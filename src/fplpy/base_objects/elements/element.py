@@ -251,7 +251,7 @@ class ElementGroup(ABC, Generic[element]):
 
         return ElementGroup[element](elements_found)
 
-    def get_top_nElements(self, col_by: str, n: int, reverse: bool = True) -> ElementGroup[element]:
+    def get_top_n_elements(self, col_by: str, n: int, reverse: bool = True) -> ElementGroup[element]:
         """Gets top n elements of an attribute and returns them in a new ElementGroup.
 
         Parameters
