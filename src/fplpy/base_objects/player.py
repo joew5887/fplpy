@@ -103,7 +103,7 @@ class BasePlayer(Element[base_player], BasePlayerVars, Generic[base_player]):
         return cls.from_dict_api(element_args)
 
     @classmethod
-    def get_latest_external_data(cls, source: ExternalFPLData) -> list[dict]:
+    def get_latest_external_data(cls, source: ExternalFPLData) -> list[dict[str, Any]]:
         return source.get_players()
 
     @ property
@@ -142,7 +142,7 @@ class BasePlayer(Element[base_player], BasePlayerVars, Generic[base_player]):
     @classmethod
     def in_cost_range(
             cls, player_pool: ElementGroup[base_player],
-            *, lower: int = 0, upper: int = 150, include_boundaries: bool = True) -> ElementGroup[_player]:
+            *, lower: int = 0, upper: int = 150, include_boundaries: bool = True) -> ElementGroup[base_player]:
         """Filters a group of players based on if their cost lies between two values.
 
         Parameters

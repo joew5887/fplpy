@@ -45,7 +45,7 @@ class BaseTeam(Element[_team], Generic[_team]):
         return element_args
 
     @classmethod
-    def get_latest_external_data(cls, source: ExternalFPLData) -> list[dict]:
+    def get_latest_external_data(cls, source: ExternalFPLData) -> list[dict[str, Any]]:
         return source.get_teams()
 
     @classmethod

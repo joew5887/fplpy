@@ -26,8 +26,7 @@ class Element(ABC, Generic[element]):
     
     @classmethod
     @abstractmethod
-    def get_latest_external_data(cls, source: ExternalFPLData) -> list[dict[str, Any]]:
-        return None
+    def get_latest_external_data(cls, source: FPLAPI) -> list[dict[str, Any]]: ...
     
     @classmethod
     @abstractmethod
@@ -93,7 +92,7 @@ class Element(ABC, Generic[element]):
     
     @classmethod
     @cache
-    def get(cls, *, source: ExternalFPLData, method_: str = "all", **attr_to_value: Union[Any, Iterable[Any]]) -> ElementGroup[element]:
+    def get(cls, *, source: FPLAPI, method_: Literal["all", "or"] = "all", **attr_to_value: Union[Any, Iterable[Any]]) -> ElementGroup[element]:
         """Gets a group of elements based on filters and conditions passed.
 
         Conditions passed by `attr_to_value`. E.g. `web_name="Spurs"`
@@ -114,7 +113,7 @@ class Element(ABC, Generic[element]):
 
     @classmethod
     @cache
-    def get_all(cls, source: ExternalFPLData) -> ElementGroup[element]:
+    def get_all(cls, source: FPLAPI) -> ElementGroup[element]:
         """Gets all elements as objects of parent class `Element`.
 
         Returns
@@ -123,13 +122,14 @@ class Element(ABC, Generic[element]):
             All elements.
         """
         elements = cls.get_latest_external_data(source)
-        elements_sorted = sorted([cls.from_dict(elem, source) for elem in elements], key=lambda p: p.unique_id)
+        elements_as_objs: list[element] = [cls.from_dict(elem, source) for elem in elements]
+        elements_sorted = sorted(elements_as_objs, key=lambda p: p.unique_id)
 
         return ElementGroup[element](elements_sorted)
 
     @classmethod
     @cache
-    def get_by_id(cls, id_: Any) -> Optional[element]:
+    def get_by_id(cls, source: FPLAPI, id_: Any) -> Optional[element]:
         """Get an element by their unique id.
 
         Parameters
@@ -143,7 +143,7 @@ class Element(ABC, Generic[element]):
             The found element. May return None if no element has been found.
         """
         filter_ = {cls.UNIQUE_ID_ATTR: id_}
-        element_group = cls.get(**filter_)
+        element_group = cls.get(source, **filter_)
 
         try:
             id_uniqueness_check(element_group)
@@ -206,7 +206,7 @@ class ElementGroup(ABC, Generic[element]):
         """
         return f"{self.__class__.__name__} of {len(self)} elements."
 
-    def filter(self, *, method_: str = "all", **attr_to_value: Union[Any, tuple[Any]]) -> ElementGroup[element]:
+    def filter(self, *, method_: Literal["all", "or"] = "all", **attr_to_value: Union[Any, tuple[Any]]) -> ElementGroup[element]:
         """Filters an ElementGroup into a group that satisfies all the conditions passed.
 
         Parameters
@@ -382,7 +382,7 @@ class ElementGroup(ABC, Generic[element]):
 
         return ElementGroup[element](elements_sorted)
 
-    def split(self, *, method_: str = "all", **attr_to_value: Union[Any, Iterable[Any]]) -> tuple[ElementGroup[element], ElementGroup[element]]:
+    def split(self, *, method_: Literal["all", "or"] = "all", **attr_to_value: Union[Any, Iterable[Any]]) -> tuple[ElementGroup[element], ElementGroup[element]]:
         """Splits an ElementGroup into two sub-groups, where one group satisfies the filters, the other does not.
 
         Parameters

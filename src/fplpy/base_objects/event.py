@@ -55,7 +55,7 @@ class BaseEvent(Element[base_event], Generic[base_event]):
         return cls.from_dict_api(element_args)
     
     @classmethod
-    def get_latest_external_data(cls, source: FPLAPI) -> list[dict]:
+    def get_latest_external_data(cls, source: FPLAPI) -> list[dict[str, Any]]:
         data = source.get_events()
 
         # none gameweek

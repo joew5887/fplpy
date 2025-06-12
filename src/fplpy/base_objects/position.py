@@ -35,7 +35,7 @@ class Position(Element["Position"]):
         return element_args
 
     @classmethod
-    def get_latest_external_data(cls, source: FPLAPI) -> list[dict]:
+    def get_latest_external_data(cls, source: FPLAPI) -> list[dict[str, Any]]:
         return source.get_positions()
 
     @classmethod

@@ -49,7 +49,7 @@ class BaseFixture(Element[base_fixture], Generic[base_fixture]):
         return cls.from_dict_api(element_args)
 
     @classmethod
-    def get_latest_external_data(cls, source: ExternalFPLData) -> list[dict]:
+    def get_latest_external_data(cls, source: ExternalFPLData) -> list[dict[str, Any]]:
         return source.get_fixtures()
 
     def __str__(self) -> str:
@@ -181,7 +181,7 @@ class BaseFixture(Element[base_fixture], Generic[base_fixture]):
 
 
 @ dataclass(frozen=True, order=True, kw_only=True)
-class UnlinkedFixture(BaseFixture["BaseFixture"]):
+class UnlinkedFixture(BaseFixture["UnlinkedFixture"]):
     """Independent Fixture element, not linked to any other FPL elements.
     """
     event: int = field(hash=False, compare=False)
