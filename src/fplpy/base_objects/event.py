@@ -1,6 +1,6 @@
 from datetime import datetime
 from typing import Generic, TypeVar, Union, Any
-from .elements.element import Element, ElementGroup
+from .elements import Element, ElementGroup
 from ..external.api import FPLAPI
 from dataclasses import dataclass, field
 from ..util.dt import string_to_datetime

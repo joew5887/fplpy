@@ -1,7 +1,7 @@
 from __future__ import annotations
 from .objects import LinkedPlayer
 from .base_objects.position import Position
-from .base_objects.elements.element import ElementGroup
+from .base_objects.elements import ElementGroup
 from .base_objects.elements.element import id_uniqueness_check
 
 
@@ -126,7 +126,9 @@ class Formation:
         """
         gk = Position.get_by_name("GKP")
         gks = players.filter(element_type=gk.unique_id)
-        id_uniqueness_check(gks)
+        
+        if not gks.is_length_1:
+            raise Exception
 
         if len(players) != 11:
             raise Exception("Invalid number of players.")

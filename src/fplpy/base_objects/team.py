@@ -1,8 +1,6 @@
 from typing import TypeVar, Generic, Any
-from .elements.element import Element
+from .elements import Element
 from ..external.template import ExternalFPLData
-from ..external.api import FPLAPI
-from ..external.github import VaastavGitHub
 from dataclasses import dataclass, field
 
 

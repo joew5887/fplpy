@@ -1,14 +1,13 @@
 from __future__ import annotations
 import math
 from typing import Any, Optional, Union
-from .util.dt import datetime_to_string
 from .base_objects.team import BaseTeam
 from .base_objects.player import BasePlayer
 from .base_objects.fixture import BaseFixture
 from .base_objects.event import BaseEvent
 from .base_objects.position import Position
 from dataclasses import dataclass, field
-from .base_objects.elements.element import ElementGroup
+from .base_objects.elements import ElementGroup
 
 
 @dataclass(frozen=True, order=True, kw_only=True)
