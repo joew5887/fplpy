@@ -1,5 +1,5 @@
 from typing import Generic, Optional, TypeVar, Any
-from .elements.element import Element, ElementGroup
+from .elements import Element, ElementGroup
 from ..external.template import ExternalFPLData
 from ..util.dt import string_to_datetime
 from datetime import datetime

@@ -1,7 +1,6 @@
 from __future__ import annotations
-from abc import abstractmethod
 from dataclasses import dataclass, field
-from .elements.element import Element, ElementGroup
+from .elements import Element, ElementGroup
 from typing import Optional, TypeVar, Generic, Any
 from ..external.template import ExternalFPLData
 

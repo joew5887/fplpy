@@ -1,6 +1,6 @@
 from __future__ import annotations
 from dataclasses import dataclass
-from .elements.element import Element
+from .elements import Element
 from ..external.api import FPLAPI
 from typing import Any
 
