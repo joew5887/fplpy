@@ -1,5 +1,6 @@
+from __future__ import annotations
 from collections.abc import MutableSequence
-from typing import Generic, Iterable, TypeVar
+from typing import Generic, Iterable, TypeVar, overload
 from random import choice
 
 
@@ -22,17 +23,60 @@ class TypedOrderedSet(MutableSequence[E], Generic[E]):
             return self.__data == other.to_list()
         
         raise NotImplementedError
+    
+    @overload
+    def __getitem__(self, index: int) -> E: ...
+    
+    @overload
+    def __getitem__(self, index: slice) -> TypedOrderedSet[E]: ...
 
-    def __getitem__(self, index: int) -> E:
+    def __getitem__(self, index: int | slice) -> E | TypedOrderedSet[E]:
+        if isinstance(index, slice):
+            return TypedOrderedSet(self.__data[index])
+
         return self.__data[index]
+    
+    @overload
+    def __setitem__(self, index: int, value: E) -> None: ...
+    
+    @overload
+    def __setitem__(self, index: slice, value: Iterable[E]) -> None: ...
 
-    def __setitem__(self, index: int, value: E) -> None:
-        self._check_type(value)
-        if value in self.__data:
-            raise ValueError("Duplicates not allowed")
-        self.__data[index] = value
+    def __setitem__(self, index: int | slice, value: E | Iterable[E]) -> None:
+        if isinstance(index, int):
+            if isinstance(value, Iterable):
+                raise TypeError(f"Expected {type(value)}, got Iterable")
 
-    def __delitem__(self, index: int) -> None:
+            # Checks
+            self._check_type(value)
+            if value in self.__data:
+                raise ValueError("Duplicates not allowed")
+
+            self.__data[index] = value
+        
+        elif isinstance(index, slice):
+            if not isinstance(value, Iterable):  # Ensure iterable for slices
+                raise TypeError(f"Expected Iterable, got {type(value)}")
+
+            values = list(value)
+            for v in values:
+                self._check_type(v)
+
+            if any(v in self.__data for v in values):  # Prevent duplicates
+                raise ValueError("Duplicates not allowed in slice assignment")
+
+            if len(values) != len(self.__data[index]):  # Enforce length match
+                raise ValueError("Slice assignment length mismatch")
+
+            self.__data[index] = values  # Assign sliced values correctly
+
+    @overload
+    def __delitem__(self, index: int) -> None: ...
+    
+    @overload
+    def __delitem__(self, index: slice) -> None: ...
+
+    def __delitem__(self, index: int | slice) -> None:
         del self.__data[index]
 
     def __len__(self) -> int:

@@ -1,8 +1,6 @@
 from __future__ import annotations
-from .objects import LinkedPlayer
-from .base_objects.position import Position
-from .base_objects.elements import ElementGroup
-from .base_objects.elements.element import id_uniqueness_check
+from .linked_object.template import LinkedPositionTemplate, LinkedPlayerTemplate
+from .linked_object.repository.position import PositionAPI
 
 
 class Formation:
@@ -11,17 +9,17 @@ class Formation:
     Validated upon __init__.
     """
 
-    def __init__(self, players: ElementGroup[LinkedPlayer]):
+    def __init__(self, players: list[LinkedPlayerTemplate]):
         Formation.is_valid_team(players)
 
-        all_positions = Position.get_all()
+        pos_api = PositionAPI()
+        all_positions = pos_api.get_all()
 
-        self.__player_to_position: dict[Position, list[LinkedPlayer]] = dict()
+        self.__player_to_position: dict[LinkedPositionTemplate, list[LinkedPlayerTemplate]] = dict()
 
         for position in all_positions:
-            players_in_position = players.filter(
-                element_type=position.unique_id)
-            self.__player_to_position[position] = players_in_position.to_list()
+            players_in_position = [p for p in players if p.position(pos_api) == position]
+            self.__player_to_position[position] = players_in_position
 
     def __str__(self) -> str:
         """Display formation as numbers.
@@ -35,7 +33,7 @@ class Formation:
 
         return "-".join(map(str, position_to_num.values()))
 
-    def as_numbers(self, ignore_gkp: bool = True) -> dict[Position, int]:
+    def as_numbers(self, ignore_gkp: bool = True) -> dict[LinkedPositionTemplate, int]:
         """Display number of players in each position.
 
         E.g. `{'DEF': 3, 'MID': 4, 'FWD': 3}` or `{'GKP': 1, 'DEF': 4, 'MID': 3, 'FWD': 3}`
@@ -52,7 +50,7 @@ class Formation:
         """
         return {pos: len(pos_players) for pos, pos_players in self.as_players(ignore_gkp=ignore_gkp).items()}
 
-    def as_players(self, ignore_gkp: bool = False) -> dict[Position, list[LinkedPlayer]]:
+    def as_players(self, ignore_gkp: bool = False) -> dict[LinkedPositionTemplate, list[LinkedPlayerTemplate]]:
         """Get all players by formation.
 
         Parameters
@@ -66,7 +64,9 @@ class Formation:
             Position by the players in that position.
         """
         if ignore_gkp:
-            gk = Position.get_by_name("GKP")
+            x = PositionAPI()
+            gk = x.get_filtered(lambda x: x.value.singular_name_short == "GKP")[0]
+            #gk = x.get_by_name("GKP")
             return {pos: players for pos, players in self.__player_to_position.items() if pos != gk}
 
         return self.__player_to_position
@@ -109,25 +109,14 @@ class Formation:
         return output_str
 
     @staticmethod
-    def is_valid_team(players: ElementGroup[LinkedPlayer]):
-        """Determines if the team passed into `Formation.__init__` is valid.
+    def is_valid_team(players: list[LinkedPlayerTemplate]) -> None:
+        x = PositionAPI()
+        gk = x.get_filtered(lambda x: x.value.singular_name_short == "GKP")[0]
 
-        Make sure there is only one goalkeeper and 11 players.
-
-        Parameters
-        ----------
-        players : ElementGroup[Player]
-            An element group of size 11.
-
-        Raises
-        ------
-        Exception
-            If there are not 11 players in `players`.
-        """
-        gk = Position.get_by_name("GKP")
-        gks = players.filter(element_type=gk.unique_id)
+        gks = [p for p in players if p.position(x) == gk]
+        #players.filter(element_type=gk.unique_id)
         
-        if not gks.is_length_1:
+        if len(gks) != 1:
             raise Exception
 
         if len(players) != 11:
