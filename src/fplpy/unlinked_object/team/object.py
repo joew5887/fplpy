@@ -4,24 +4,24 @@ from .model import TeamModel
 from typing import TypeVar
 
 
-T_team = TypeVar("T_team", bound="Team")
+T_team = TypeVar("T_team", bound="UnlinkedTeam")
 
 
-class Team(ElementWithID[TeamModel]):
+class UnlinkedTeam(ElementWithID[TeamModel]):
     def __repr__(self) -> str:
         fields = [
-            f"{Team.get_id_field_name()}(ID)={self.id}",
+            f"{type(self).get_id_field_name()}(ID)={self.id}",
             f"name='{self.value.name}'",
         ]
         fields_str = ", ".join(fields)
 
-        return f"{self.__class__.__name__}({fields_str})"
+        return f"Team({fields_str})"
     
     def __str__(self) -> str:
         return self.value.name
     
     def __eq__(self, other: object) -> bool:
-        if isinstance(other, Team):
+        if isinstance(other, UnlinkedTeam):
             return self.id == other.id and self.value.name == other.value.name
     
         return False

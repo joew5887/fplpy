@@ -1,8 +1,9 @@
 from .object import T_team
-from .source import TeamDataSource
-from .._element.repository import BaseRepositoryWithID
+from .._element.source import DataSourceModel
+from .model import TeamModel
+from .._element.repository import RepositoryWithID
 from typing import Generic
 from abc import ABC
 
 
-class BaseTeamRepository(BaseRepositoryWithID[T_team, TeamDataSource], ABC, Generic[T_team]): ...
+class BaseTeamRepository(RepositoryWithID[T_team, DataSourceModel[TeamModel]], ABC, Generic[T_team]): ...

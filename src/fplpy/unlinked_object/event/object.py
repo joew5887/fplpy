@@ -6,25 +6,25 @@ from ...util.dt import string_to_datetime
 from typing import TypeVar
 
 
-T_event = TypeVar("T_event", bound="Event")
+T_event = TypeVar("T_event", bound="UnlinkedEvent")
 
 
-class Event(ElementWithID[EventModel]):
+class UnlinkedEvent(ElementWithID[EventModel]):
     def __repr__(self) -> str:
         fields = [
-            f"{Event.get_id_field_name()}(ID)={self.id}",
+            f"{type(self).get_id_field_name()}(ID)={self.id}",
             f"name='{self.value.name}'",
             f"deadline_time='{self.value.deadline_time}'"
         ]
         fields_str = ", ".join(fields)
 
-        return f"{self.__class__.__name__}({fields_str})"
+        return f"Event({fields_str})"
     
     def __str__(self) -> str:
         return self.value.name
     
     def __eq__(self, other: object) -> bool:
-        if isinstance(other, Event):
+        if isinstance(other, UnlinkedEvent):
             return self.id == other.id and self.value.name == other.value.name
     
         return False

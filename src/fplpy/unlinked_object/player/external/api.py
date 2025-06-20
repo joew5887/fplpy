@@ -1,27 +1,15 @@
-from ..source import PlayerDataSource
-from ..model import PlayerModel
-from ..object import Player
+from ..._element.source import APIDataSourceModel
 from ....util.external.api import call_api, get_url
-from ....util.other import filter_dict
-from ..repository import BasePlayerRepository
-from typing import Sequence, Any
+from ..model import PlayerModel
+from typing import Any
 
 
-class PlayerAPIDataSource(PlayerDataSource):
-    def get(self) -> Sequence[PlayerModel]:
-        data: dict[str, list[dict[str, Any]]] = call_api(get_url("BOOTSTRAP-STATIC"))
-
-        # Define the expected fields for PlayerModelBase
-        expected_keys = {f.name for f in PlayerModel.__dataclass_fields__.values()}
-
-        required_data = []
-        for item in data["elements"]:
-            item_filtered = filter_dict(item, list(expected_keys))
-            required_data.append(PlayerModel(**item_filtered))
-
-        return required_data
-
-
-class PlayerAPI(BasePlayerRepository[Player]):
+class PlayerAPIDataSource(APIDataSourceModel[PlayerModel]):
     def __init__(self) -> None:
-        super().__init__(Player, PlayerAPIDataSource())
+        super().__init__(PlayerModel)
+
+    def _get_raw_data(self) -> list[dict[str, Any]]:
+        data: dict[str, list[dict[str, Any]]] = call_api(get_url("BOOTSTRAP-STATIC"))
+        Player_data = data["elements"]
+        
+        return Player_data

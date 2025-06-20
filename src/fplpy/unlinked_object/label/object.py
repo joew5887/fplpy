@@ -4,10 +4,10 @@ from .model import LabelModel
 from typing import TypeVar
 
 
-T_label = TypeVar("T_label", bound="Label")
+T_label = TypeVar("T_label", bound="UnlinkedLabel")
 
 
-class Label(Element[LabelModel]):
+class UnlinkedLabel(Element[LabelModel]):
     def __repr__(self) -> str:
         fields = [
             f"label='{self.value.label}'",
@@ -15,13 +15,13 @@ class Label(Element[LabelModel]):
         ]
         fields_str = ", ".join(fields)
 
-        return f"{self.__class__.__name__}({fields_str})"
+        return f"Label({fields_str})"
     
     def __str__(self) -> str:
         return self.value.label
     
     def __eq__(self, other: object) -> bool:
-        if isinstance(other, Label):
+        if isinstance(other, UnlinkedLabel):
             return self.value.label == other.value.label and self.value.name == other.value.name
     
         return False

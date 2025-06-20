@@ -1,16 +1,16 @@
 from __future__ import annotations
 from typing import Optional
 
-from ..unlinked_object.event.object import Event as UnlinkedEvent
-from ..unlinked_object.fixture.object import Fixture as UnlinkedFixture
-from ..unlinked_object.label.object import Label as UnlinkedLabel
-from ..unlinked_object.player.object import Player as UnlinkedPlayer
-from ..unlinked_object.position.object import Position as UnlinkedPosition
-from ..unlinked_object.team.object import Team as UnlinkedTeam
+from ..unlinked_object.event.object import UnlinkedEvent as UnlinkedEvent
+from ..unlinked_object.fixture.object import UnlinkedFixture as UnlinkedFixture
+from ..unlinked_object.label.object import UnlinkedLabel as UnlinkedLabel
+from ..unlinked_object.player.object import UnlinkedPlayer as UnlinkedPlayer
+from ..unlinked_object.position.object import UnlinkedPosition as UnlinkedPosition
+from ..unlinked_object.team.object import UnlinkedTeam as UnlinkedTeam
 
-from ..unlinked_object.team.repository import BaseTeamRepository
 from ..unlinked_object.event.repository import BaseEventRepository
 from ..unlinked_object.position.repository import BasePositionRepository
+from ..unlinked_object.team.repository import BaseTeamRepository
 
 
 class LinkedEvent(UnlinkedEvent):
