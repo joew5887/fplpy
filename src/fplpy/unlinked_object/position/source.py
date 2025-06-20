@@ -1,5 +1,5 @@
-from .._element.source import ModelDataSource
+from .._element.source import DataSourceModel
 from .model import PositionModel
 
 
-class PositionDataSource(ModelDataSource[PositionModel]): ...
+class PositionDataSource(DataSourceModel[PositionModel]): ...

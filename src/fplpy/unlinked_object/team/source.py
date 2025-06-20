@@ -1,5 +1,5 @@
-from .._element.source import ModelDataSource
+from .._element.source import DataSourceModel
 from .model import TeamModel
 
 
-class TeamDataSource(ModelDataSource[TeamModel]): ...
+class TeamDataSource(DataSourceModel[TeamModel]): ...

@@ -8,7 +8,15 @@ T_player = TypeVar("T_player", bound="PlayerTemplate")
 
 class Player(PlayerTemplate):
     def __repr__(self) -> str:
-        raise NotImplementedError
+        fields = [
+            f"code(ID)={self.id}",
+            f"web_name='{self.value.web_name}'",
+            f"team={self.value.team}",
+            f"position={self.value.element_type}"
+        ]
+        fields_str = ", ".join(fields)
+
+        return f"{self.__class__.__name__}({fields_str})"
     
     def __str__(self) -> str:
         return self.value.web_name

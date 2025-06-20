@@ -1,5 +1,6 @@
 from .._element.model import Model
 from dataclasses import dataclass, field
+from typing import Optional
 
 
 @dataclass(frozen=True, order=True, kw_only=True)
@@ -12,6 +13,8 @@ class PositionModel(Model):
     squad_select: int
     squad_min_play: int
     squad_max_play: int
+    squad_min_select: Optional[int]
+    squad_max_select: Optional[int]
     ui_shirt_specific: bool
     sub_positions_locked: list[int] = field(default_factory=list)
     element_count: int

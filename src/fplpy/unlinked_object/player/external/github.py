@@ -38,7 +38,10 @@ def coerce_types(model_cls: Type[Model], data: dict[str, Any]) -> dict[str, Any]
         elif f.type == int:
             coerced[f.name] = int(value)
         elif f.type == float:
-            coerced[f.name] = float(value)
+            if value == "None":
+                coerced[f.name] = 0.0
+            else:
+                coerced[f.name] = float(value)
         elif f.type == bool:
             coerced[f.name] = value.lower() == "true" if isinstance(value, str) else bool(value)
         elif f.type == list[dict[str, Any]]:

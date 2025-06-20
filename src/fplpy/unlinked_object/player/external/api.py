@@ -4,7 +4,7 @@ from ..object import Player
 from ....util.external.api import call_api, get_url
 from ....util.other import filter_dict
 from ..repository import BasePlayerRepository
-from typing import Sequence, Any, Type
+from typing import Sequence, Any
 
 
 class PlayerAPIDataSource(PlayerDataSource):

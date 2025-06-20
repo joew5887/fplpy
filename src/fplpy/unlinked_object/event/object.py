@@ -12,7 +12,8 @@ class Event(EventTemplate):
     def __repr__(self) -> str:
         fields = [
             f"{Event.get_id_field_name()}(ID)={self.id}",
-            f"name={self.value.name}",
+            f"name='{self.value.name}'",
+            f"deadline_time='{self.value.deadline_time}'"
         ]
         fields_str = ", ".join(fields)
 

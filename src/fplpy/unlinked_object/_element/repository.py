@@ -1,6 +1,6 @@
 from __future__ import annotations
 from .source import T_source
-from abc import ABC, abstractmethod
+from abc import ABC
 from typing import Generic, Callable, Optional, Type
 from .element_template import T_element_with_id, T_element
 

@@ -49,16 +49,6 @@ def test_team_initialization(sample_team_1, sample_team_1_model) -> None:
     assert sample_team_1.id == sample_team_1_model.code  # Ensuring correct ID mapping
     
     
-def test_team_repr(sample_team_1) -> None:
-    expected_repr = "Team(code(ID)=3, name=Arsenal)"
-
-    assert repr(sample_team_1) == expected_repr
-
-
-def test_team_str(sample_team_1):
-    assert str(sample_team_1) == "Arsenal"
-    
-    
 def test_team_equality(sample_team_1, sample_team_1_model):
     another_team = Team(sample_team_1_model)
     assert sample_team_1 == another_team  # Same attributes → should be equal

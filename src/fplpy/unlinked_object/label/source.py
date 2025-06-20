@@ -1,5 +1,5 @@
-from .._element.source import ModelDataSource
+from .._element.source import DataSourceModel
 from .model import LabelModel
 
 
-class LabelDataSource(ModelDataSource[LabelModel]): ...
+class LabelDataSource(DataSourceModel[LabelModel]): ...

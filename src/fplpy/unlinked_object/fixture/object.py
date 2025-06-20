@@ -10,16 +10,16 @@ class Fixture(FixtureTemplate):
     def __repr__(self) -> str:
         fields = [
             f"{Fixture.get_id_field_name()}(ID)={self.id}",
-            f"event={self.value.event}",
             f"team_h={self.value.team_h}",
-            f"team_a={self.value.team_a}"
+            f"team_a={self.value.team_a}",
+            f"event={self.value.event}",
         ]
         fields_str = ", ".join(fields)
 
         return f"{self.__class__.__name__}({fields_str})"
     
     def __str__(self) -> str:
-        return str(self.id)
+        return f"{self.value.team_h} v {self.value.team_a}"
     
     def __eq__(self, other: object) -> bool:
         raise NotImplementedError

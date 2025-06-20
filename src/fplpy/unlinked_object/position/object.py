@@ -9,9 +9,9 @@ T_position = TypeVar("T_position", bound="PositionTemplate")
 class Position(PositionTemplate):
     def __repr__(self) -> str:
         fields = [
-            f"id={self.id}",
-            f"singular_name={self.value.singular_name}",
-            f"singular_name_short={self.value.singular_name_short})"
+            f"id(ID)={self.id}",
+            f"singular_name='{self.value.singular_name}'",
+            f"singular_name_short='{self.value.singular_name_short}'"
         ]
         fields_str = ", ".join(fields)
 

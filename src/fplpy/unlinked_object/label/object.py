@@ -9,15 +9,15 @@ T_label = TypeVar("T_label", bound="LabelTemplate")
 class Label(LabelTemplate):
     def __repr__(self) -> str:
         fields = [
-            f"label={self.value.label}",
-            f"name={self.value.name}",
+            f"label='{self.value.label}'",
+            f"name='{self.value.name}'",
         ]
         fields_str = ", ".join(fields)
 
         return f"{self.__class__.__name__}({fields_str})"
     
     def __str__(self) -> str:
-        return self.value.name
+        return self.value.label
     
     def __eq__(self, other: object) -> bool:
         if isinstance(other, LabelTemplate):

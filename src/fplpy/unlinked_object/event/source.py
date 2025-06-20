@@ -1,5 +1,5 @@
-from .._element.source import ModelDataSource
+from .._element.source import DataSourceModel
 from .model import EventModel
 
 
-class EventDataSource(ModelDataSource[EventModel]): ...
+class EventDataSource(DataSourceModel[EventModel]): ...
