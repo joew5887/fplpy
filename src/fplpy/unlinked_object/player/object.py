@@ -1,12 +1,13 @@
 from __future__ import annotations
-from .object_template import PlayerTemplate
+from .._element.element import ElementWithID
+from .model import PlayerModel
 from typing import TypeVar
 
 
-T_player = TypeVar("T_player", bound="PlayerTemplate")
+T_player = TypeVar("T_player", bound="Player")
 
 
-class Player(PlayerTemplate):
+class Player(ElementWithID[PlayerModel]):
     def __repr__(self) -> str:
         fields = [
             f"code(ID)={self.id}",
@@ -22,7 +23,7 @@ class Player(PlayerTemplate):
         return self.value.web_name
     
     def __eq__(self, other: object) -> bool:
-        if isinstance(other, PlayerTemplate):
+        if isinstance(other, Player):
             return self.id == other.id
     
         return False

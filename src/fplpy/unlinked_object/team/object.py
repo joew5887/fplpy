@@ -1,12 +1,13 @@
 from __future__ import annotations
-from .object_template import TeamTemplate
+from .._element.element import ElementWithID
+from .model import TeamModel
 from typing import TypeVar
 
 
-T_team = TypeVar("T_team", bound="TeamTemplate")
+T_team = TypeVar("T_team", bound="Team")
 
 
-class Team(TeamTemplate):
+class Team(ElementWithID[TeamModel]):
     def __repr__(self) -> str:
         fields = [
             f"{Team.get_id_field_name()}(ID)={self.id}",
@@ -20,7 +21,7 @@ class Team(TeamTemplate):
         return self.value.name
     
     def __eq__(self, other: object) -> bool:
-        if isinstance(other, TeamTemplate):
+        if isinstance(other, Team):
             return self.id == other.id and self.value.name == other.value.name
     
         return False

@@ -12,34 +12,37 @@ from ..unlinked_object.team.repository import BaseTeamRepository
 from ..unlinked_object.event.repository import BaseEventRepository
 from ..unlinked_object.position.repository import BasePositionRepository
 
-from .template import LinkedFixtureTemplate, LinkedEventTemplate, \
-    LinkedPositionTemplate, LinkedTeamTemplate, LinkedLabelTemplate, \
-    LinkedPlayerTemplate
+
+class LinkedEvent(UnlinkedEvent):
+    pass
 
 
-class LinkedEvent(UnlinkedEvent, LinkedEventTemplate): ...
-class LinkedFixture(UnlinkedFixture, LinkedFixtureTemplate):
-    def team_h(self, source: BaseTeamRepository[LinkedTeamTemplate]) -> LinkedTeam:
+class LinkedFixture(UnlinkedFixture):
+    def team_h(self, source: BaseTeamRepository[LinkedTeam]) -> LinkedTeam:
         res = source.get_filtered(lambda x: x.value.id == self.value.team_h)
         
         return LinkedTeam(res[0].value)
     
-    def team_a(self, source: BaseTeamRepository[LinkedTeamTemplate]) -> LinkedTeam:
+    def team_a(self, source: BaseTeamRepository[LinkedTeam]) -> LinkedTeam:
         res = source.get_filtered(lambda x: x.value.id == self.value.team_a)
         
         return LinkedTeam(res[0].value)
     
-    def event(self, source: BaseEventRepository[LinkedEventTemplate]) -> Optional[LinkedEvent]:
+    def event(self, source: BaseEventRepository[LinkedEvent]) -> Optional[LinkedEvent]:
         res = source.get_by_id(self.value.event)
         
         if res is not None:
             return LinkedEvent(res.value)
         
         return None
-    
-class LinkedLabel(UnlinkedLabel, LinkedLabelTemplate): ...
-class LinkedPlayer(UnlinkedPlayer, LinkedPlayerTemplate):
-    def position(self, source: BasePositionRepository[LinkedPositionTemplate]) -> Optional[LinkedPosition]:
+
+
+class LinkedLabel(UnlinkedLabel):
+    pass
+
+
+class LinkedPlayer(UnlinkedPlayer):
+    def position(self, source: BasePositionRepository[LinkedPosition]) -> Optional[LinkedPosition]:
         res = source.get_by_id(self.value.element_type)
         
         if res is not None:
@@ -47,12 +50,14 @@ class LinkedPlayer(UnlinkedPlayer, LinkedPlayerTemplate):
         
         return None
     
-    def team(self, source: BaseTeamRepository[LinkedTeamTemplate]) -> LinkedTeam:
+    def team(self, source: BaseTeamRepository[LinkedTeam]) -> LinkedTeam:
         res = source.get_filtered(lambda x: x.value.id == self.value.team)
         
         return LinkedTeam(res[0].value)
 
-class LinkedPosition(UnlinkedPosition, LinkedPositionTemplate): ...
-class LinkedTeam(UnlinkedTeam, LinkedTeamTemplate):
-    def foo(self) -> str:
-        return "testing"
+class LinkedPosition(UnlinkedPosition):
+    pass
+
+
+class LinkedTeam(UnlinkedTeam):
+    pass

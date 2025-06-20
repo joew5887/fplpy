@@ -45,3 +45,21 @@ def test_repr(object_cls, init_args, expected_repr) -> None:
     instance = object_cls(**init_args)
     
     assert repr(instance) == expected_repr
+    
+    
+@pytest.mark.parametrize(
+    "object_cls, init_args",
+    [
+        (Team, {"attributes": team_model()}),
+        (Label, {"attributes": label_model()}),
+        (Position, {"attributes": position_model()}),
+        (Player, {"attributes": player_model()}),
+        (Fixture, {"attributes": fixture_model()}),
+        (Event, {"attributes": event_model()})
+    ]
+)
+def test_eq_true(object_cls, init_args) -> None:
+    instance_1 = object_cls(**init_args)
+    instance_2 = object_cls(**init_args)
+    
+    assert instance_1 == instance_2

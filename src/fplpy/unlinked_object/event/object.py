@@ -1,14 +1,15 @@
 from __future__ import annotations
-from .object_template import EventTemplate
+from .._element.element import ElementWithID
+from .model import EventModel
 from datetime import datetime
 from ...util.dt import string_to_datetime
 from typing import TypeVar
 
 
-T_event = TypeVar("T_event", bound="EventTemplate")
+T_event = TypeVar("T_event", bound="Event")
 
 
-class Event(EventTemplate):
+class Event(ElementWithID[EventModel]):
     def __repr__(self) -> str:
         fields = [
             f"{Event.get_id_field_name()}(ID)={self.id}",
@@ -23,7 +24,7 @@ class Event(EventTemplate):
         return self.value.name
     
     def __eq__(self, other: object) -> bool:
-        if isinstance(other, EventTemplate):
+        if isinstance(other, Event):
             return self.id == other.id and self.value.name == other.value.name
     
         return False

@@ -1,12 +1,13 @@
 from __future__ import annotations
-from .object_template import FixtureTemplate
+from .._element.element import ElementWithID
+from .model import FixtureModel
 from typing import TypeVar
 
 
-T_fixture = TypeVar("T_fixture", bound="FixtureTemplate")
+T_fixture = TypeVar("T_fixture", bound="Fixture")
 
 
-class Fixture(FixtureTemplate):
+class Fixture(ElementWithID[FixtureModel]):
     def __repr__(self) -> str:
         fields = [
             f"{Fixture.get_id_field_name()}(ID)={self.id}",
@@ -22,7 +23,10 @@ class Fixture(FixtureTemplate):
         return f"{self.value.team_h} v {self.value.team_a}"
     
     def __eq__(self, other: object) -> bool:
-        raise NotImplementedError
+        if isinstance(other, Fixture):
+            return self.value == other.value
+        
+        return False
     
     def __hash__(self) -> int:
         raise NotImplementedError

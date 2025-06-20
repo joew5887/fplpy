@@ -1,5 +1,5 @@
 from __future__ import annotations
-from .linked_object.template import LinkedPositionTemplate, LinkedPlayerTemplate
+from .linked_object.objects import LinkedPlayer, LinkedPosition
 from .linked_object.repository.position import PositionAPI
 
 
@@ -9,13 +9,13 @@ class Formation:
     Validated upon __init__.
     """
 
-    def __init__(self, players: list[LinkedPlayerTemplate]):
+    def __init__(self, players: list[LinkedPlayer]):
         Formation.is_valid_team(players)
 
         pos_api = PositionAPI()
         all_positions = pos_api.get_all()
 
-        self.__player_to_position: dict[LinkedPositionTemplate, list[LinkedPlayerTemplate]] = dict()
+        self.__player_to_position: dict[LinkedPosition, list[LinkedPlayer]] = dict()
 
         for position in all_positions:
             players_in_position = [p for p in players if p.position(pos_api) == position]
@@ -33,7 +33,7 @@ class Formation:
 
         return "-".join(map(str, position_to_num.values()))
 
-    def as_numbers(self, ignore_gkp: bool = True) -> dict[LinkedPositionTemplate, int]:
+    def as_numbers(self, ignore_gkp: bool = True) -> dict[LinkedPosition, int]:
         """Display number of players in each position.
 
         E.g. `{'DEF': 3, 'MID': 4, 'FWD': 3}` or `{'GKP': 1, 'DEF': 4, 'MID': 3, 'FWD': 3}`
@@ -50,7 +50,7 @@ class Formation:
         """
         return {pos: len(pos_players) for pos, pos_players in self.as_players(ignore_gkp=ignore_gkp).items()}
 
-    def as_players(self, ignore_gkp: bool = False) -> dict[LinkedPositionTemplate, list[LinkedPlayerTemplate]]:
+    def as_players(self, ignore_gkp: bool = False) -> dict[LinkedPosition, list[LinkedPlayer]]:
         """Get all players by formation.
 
         Parameters
@@ -109,7 +109,7 @@ class Formation:
         return output_str
 
     @staticmethod
-    def is_valid_team(players: list[LinkedPlayerTemplate]) -> None:
+    def is_valid_team(players: list[LinkedPlayer]) -> None:
         x = PositionAPI()
         gk = x.get_filtered(lambda x: x.value.singular_name_short == "GKP")[0]
 

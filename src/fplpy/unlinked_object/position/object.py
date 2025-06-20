@@ -1,12 +1,13 @@
 from __future__ import annotations
-from .object_template import PositionTemplate
+from .._element.element import ElementWithID
+from .model import PositionModel
 from typing import TypeVar
 
 
-T_position = TypeVar("T_position", bound="PositionTemplate")
+T_position = TypeVar("T_position", bound="Position")
 
 
-class Position(PositionTemplate):
+class Position(ElementWithID[PositionModel]):
     def __repr__(self) -> str:
         fields = [
             f"id(ID)={self.id}",
@@ -21,7 +22,7 @@ class Position(PositionTemplate):
         return self.value.singular_name
     
     def __eq__(self, other: object) -> bool:
-        if isinstance(other, PositionTemplate):
+        if isinstance(other, Position):
             return self.id == other.id and self.value.singular_name == other.value.singular_name
     
         return False
