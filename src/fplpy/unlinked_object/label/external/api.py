@@ -10,6 +10,5 @@ class LabelAPIDataSource(APIDataSourceModel[LabelModel]):
 
     def _get_raw_data(self) -> list[dict[str, Any]]:
         data: dict[str, list[dict[str, Any]]] = call_api(get_url("BOOTSTRAP-STATIC"))
-        label_data = data["element_stats"]
-        
-        return label_data
+
+        return data["element_stats"]

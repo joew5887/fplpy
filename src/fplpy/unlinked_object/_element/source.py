@@ -18,6 +18,9 @@ class DataSourceModel(ABC, Generic[T_model]):
     @abstractmethod
     def get(self) -> Sequence[T_model]: ...
     
+    @abstractmethod
+    def _get_raw_data(self) -> Sequence[dict[str, Any]]: ...
+    
     
 class APIDataSourceModel(DataSourceModel[T_model], ABC, Generic[T_model]):
     def __init__(self, model_cls: Type[T_model]) -> None:

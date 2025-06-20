@@ -1,16 +1,16 @@
 from __future__ import annotations
 from typing import Optional
 
-from ..unlinked_object.event.object import UnlinkedEvent as UnlinkedEvent
-from ..unlinked_object.fixture.object import UnlinkedFixture as UnlinkedFixture
-from ..unlinked_object.label.object import UnlinkedLabel as UnlinkedLabel
-from ..unlinked_object.player.object import UnlinkedPlayer as UnlinkedPlayer
-from ..unlinked_object.position.object import UnlinkedPosition as UnlinkedPosition
-from ..unlinked_object.team.object import UnlinkedTeam as UnlinkedTeam
+from ..unlinked_object._element.repository import RepositoryWithID
+from ..unlinked_object._element.source import T_source
 
-from ..unlinked_object.event.repository import BaseEventRepository
-from ..unlinked_object.position.repository import BasePositionRepository
-from ..unlinked_object.team.repository import BaseTeamRepository
+from ..unlinked_object.event.object import UnlinkedEvent
+from ..unlinked_object.fixture.object import UnlinkedFixture
+from ..unlinked_object.label.object import UnlinkedLabel
+from ..unlinked_object.player.object import UnlinkedPlayer
+from ..unlinked_object.position.object import UnlinkedPosition
+from ..unlinked_object.team.object import UnlinkedTeam
+from ..unlinked_object.game_settings.object import UnlinkedGameSettings
 
 
 class LinkedEvent(UnlinkedEvent):
@@ -18,17 +18,17 @@ class LinkedEvent(UnlinkedEvent):
 
 
 class LinkedFixture(UnlinkedFixture):
-    def team_h(self, source: BaseTeamRepository[LinkedTeam]) -> LinkedTeam:
+    def team_h(self, source: RepositoryWithID[LinkedTeam, T_source]) -> LinkedTeam:
         res = source.get_filtered(lambda x: x.value.id == self.value.team_h)
         
         return LinkedTeam(res[0].value)
     
-    def team_a(self, source: BaseTeamRepository[LinkedTeam]) -> LinkedTeam:
+    def team_a(self, source: RepositoryWithID[LinkedTeam, T_source]) -> LinkedTeam:
         res = source.get_filtered(lambda x: x.value.id == self.value.team_a)
         
         return LinkedTeam(res[0].value)
     
-    def event(self, source: BaseEventRepository[LinkedEvent]) -> Optional[LinkedEvent]:
+    def event(self, source: RepositoryWithID[LinkedEvent, T_source]) -> Optional[LinkedEvent]:
         res = source.get_by_id(self.value.event)
         
         if res is not None:
@@ -42,7 +42,7 @@ class LinkedLabel(UnlinkedLabel):
 
 
 class LinkedPlayer(UnlinkedPlayer):
-    def position(self, source: BasePositionRepository[LinkedPosition]) -> Optional[LinkedPosition]:
+    def position(self, source: RepositoryWithID[LinkedPosition, T_source]) -> Optional[LinkedPosition]:
         res = source.get_by_id(self.value.element_type)
         
         if res is not None:
@@ -50,7 +50,7 @@ class LinkedPlayer(UnlinkedPlayer):
         
         return None
     
-    def team(self, source: BaseTeamRepository[LinkedTeam]) -> LinkedTeam:
+    def team(self, source: RepositoryWithID[LinkedTeam, T_source]) -> LinkedTeam:
         res = source.get_filtered(lambda x: x.value.id == self.value.team)
         
         return LinkedTeam(res[0].value)
@@ -60,4 +60,8 @@ class LinkedPosition(UnlinkedPosition):
 
 
 class LinkedTeam(UnlinkedTeam):
+    pass
+
+
+class LinkedGameSettings(UnlinkedGameSettings):
     pass
