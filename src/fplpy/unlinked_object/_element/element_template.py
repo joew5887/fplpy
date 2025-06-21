@@ -36,25 +36,15 @@ class HasID(ABC):
     @property
     @abstractmethod
     def id(self) -> int: ...
-    
+
     @staticmethod
     @abstractmethod
     def get_id_field_name() -> str: ...
 
 
-class ElementTemplate(
-    SingleArgumentInitialisable[T_model],
-    Representable,
-    Comparable,
-    Hashable,
-    ABC,
-    Generic[T_model],
-): ...
+class ElementTemplate(SingleArgumentInitialisable[T_model], Representable, Comparable, Hashable, ABC, Generic[T_model]):
+    ...
 
 
-class ElementTemplateWithID(
-    ElementTemplate[T_model],
-    HasID,
-    ABC,
-    Generic[T_model],
-): ...
+class ElementTemplateWithID(ElementTemplate[T_model], HasID, ABC, Generic[T_model]):
+    ...

@@ -15,18 +15,21 @@ from .unlinked_object.player.external.github import PlayerGitHubDataSource
 from .unlinked_object.team.external.github import TeamGitHubDataSource
 
 EventAPI = RepositoryWithID(LinkedEvent, EventAPIDataSource())
-
 FixtureAPI = RepositoryWithID(LinkedFixture, FixtureAPIDataSource())
-FixtureGitHub = lambda season: RepositoryWithID(LinkedFixture, FixtureGitHubDataSource(season=season))
-
 LabelAPI = Repository(LinkedLabel, LabelAPIDataSource())
-
 PlayerAPI = RepositoryWithID(LinkedPlayer, PlayerAPIDataSource())
-PlayerGitHub = lambda season: RepositoryWithID(LinkedPlayer, PlayerGitHubDataSource(season=season))
-
 PositionAPI = RepositoryWithID(LinkedPosition, PositionAPIDataSource())
-
 TeamAPI = RepositoryWithID(LinkedTeam, TeamAPIDataSource())
-TeamGitHub = lambda season: RepositoryWithID(LinkedTeam, TeamGitHubDataSource(season=season))
-
 GameSettingsAPI = Repository(LinkedGameSettings, GameSettingsAPIDataSource())
+
+
+def FixtureGitHub(season: str) -> RepositoryWithID[LinkedFixture, FixtureGitHubDataSource]:
+    return RepositoryWithID(LinkedFixture, FixtureGitHubDataSource(season=season))
+
+
+def PlayerGitHub(season: str) -> RepositoryWithID[LinkedPlayer, PlayerGitHubDataSource]:
+    return RepositoryWithID(LinkedPlayer, PlayerGitHubDataSource(season=season))
+
+
+def TeamGitHub(season: str) -> RepositoryWithID[LinkedTeam, TeamGitHubDataSource]:
+    return RepositoryWithID(LinkedTeam, TeamGitHubDataSource(season=season))

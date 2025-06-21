@@ -18,19 +18,19 @@ class UnlinkedFixture(ElementWithID[FixtureModel]):
         fields_str = ", ".join(fields)
 
         return f"Fixture({fields_str})"
-    
+
     def __str__(self) -> str:
         return f"{self.value.team_h} v {self.value.team_a}"
-    
+
     def __eq__(self, other: object) -> bool:
         if isinstance(other, UnlinkedFixture):
             return self.value == other.value
-        
+
         return False
-    
+
     def __hash__(self) -> int:
         raise NotImplementedError
-    
+
     @staticmethod
     def get_id_field_name() -> str:
         return "code"

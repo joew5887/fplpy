@@ -17,19 +17,19 @@ class UnlinkedPosition(ElementWithID[PositionModel]):
         fields_str = ", ".join(fields)
 
         return f"Position({fields_str})"
-    
+
     def __str__(self) -> str:
         return self.value.singular_name
-    
+
     def __eq__(self, other: object) -> bool:
         if isinstance(other, UnlinkedPosition):
             return self.id == other.id and self.value.singular_name == other.value.singular_name
-    
+
         return False
-    
+
     def __hash__(self) -> int:
         return hash((self.id, self.value.singular_name))
-    
+
     @staticmethod
     def get_id_field_name() -> str:
         return "id"

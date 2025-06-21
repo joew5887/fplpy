@@ -11,5 +11,5 @@ class TeamGitHubDataSource(GitHubDataSourceModel[TeamModel]):
     def _get_raw_data(self) -> list[dict[str, Any]]:
         url = get_vaastav_url("TEAMS", self.season)
         data: list[dict[str, Any]] = github_csv_to_dict(url)
-        
+
         return data

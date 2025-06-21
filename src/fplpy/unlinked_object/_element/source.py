@@ -17,21 +17,21 @@ SUPPORTED_SEASONS = (
 class DataSourceModel(ABC, Generic[T_model]):
     @abstractmethod
     def get(self) -> Sequence[T_model]: ...
-    
+
     @abstractmethod
     def _get_raw_data(self) -> Sequence[dict[str, Any]]: ...
-    
-    
+
+
 class APIDataSourceModel(DataSourceModel[T_model], ABC, Generic[T_model]):
     def __init__(self, model_cls: Type[T_model]) -> None:
         self.__model_cls = model_cls
-        
+
     @abstractmethod
     def _get_raw_data(self) -> list[dict[str, Any]]: ...
-    
+
     def get(self) -> list[T_model]:
         data = self._get_raw_data()
-        
+
         # Define the expected fields for LabelModelBase
         expected_keys = {f.name for f in self.__model_cls.__dataclass_fields__.values()}
 
@@ -46,21 +46,21 @@ class APIDataSourceModel(DataSourceModel[T_model], ABC, Generic[T_model]):
 class GitHubDataSourceModel(DataSourceModel[T_model], ABC, Generic[T_model]):
     def __init__(self, model_cls: Type[T_model], season: str) -> None:
         self.__model_cls = model_cls
-        
+
         if season not in SUPPORTED_SEASONS:
             raise ValueError(f"season not in {SUPPORTED_SEASONS}")
         self.__season = season
-        
+
     @property
     def season(self) -> str:
         return self.__season
-        
+
     @abstractmethod
     def _get_raw_data(self) -> list[dict[str, Any]]: ...
-    
+
     def get(self) -> list[T_model]:
         data = self._get_raw_data()
-        
+
         # Define the expected fields for LabelModelBase
         expected_keys = {f.name for f in self.__model_cls.__dataclass_fields__.values()}
 
@@ -71,7 +71,7 @@ class GitHubDataSourceModel(DataSourceModel[T_model], ABC, Generic[T_model]):
             required_data.append(self.__model_cls(**item_typed))
 
         return required_data
-    
+
 
 def coerce_types(model_cls: Type[T_model], data: dict[str, Any]) -> dict[str, Any]:
     coerced: dict[str, Any] = {}

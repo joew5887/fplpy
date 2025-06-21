@@ -15,13 +15,13 @@ class Repository(ABC, Generic[T_element, T_source]):
 
     def get_filtered(self, filter_fn: Callable[[T_element], bool]) -> list[T_element]:
         return [item for item in self.get_all() if filter_fn(item)]
-    
+
 
 class RepositoryWithID(Repository[T_element_with_id, T_source], ABC, Generic[T_element_with_id, T_source]):
     def get_by_id(self, unique_id: int) -> Optional[T_element_with_id]:
         res = self.get_filtered(lambda x: x.id == unique_id)
-        
+
         if len(res) == 1:
             return res[0]
-        
+
         return None

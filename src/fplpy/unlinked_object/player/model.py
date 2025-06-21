@@ -1,5 +1,5 @@
 from .._element.model import Model
-from typing import Any, Optional
+from typing import Optional
 from dataclasses import dataclass
 
 

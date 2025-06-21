@@ -17,8 +17,8 @@ def __github_csv_to_dict(csv_url: str) -> list[dict[Any, Any]]:
         return data  # Returning the JSON-like dictionary
     else:
         raise Exception(f"Failed to fetch CSV: {response.status_code}")
-    
-    
+
+
 def github_csv_to_dict(csv_url: str) -> list[dict[Any, Any]]:
     return __github_csv_to_dict(csv_url)
 

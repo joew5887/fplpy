@@ -10,5 +10,5 @@ class GameSettingsAPIDataSource(APIDataSourceModel[GameSettingsModel]):
 
     def _get_raw_data(self) -> list[dict[str, Any]]:
         data: dict[str, dict[str, Any]] = call_api(get_url("BOOTSTRAP-STATIC"))
-        
+
         return [data["game_settings"]]

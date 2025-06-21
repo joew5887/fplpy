@@ -18,19 +18,19 @@ class UnlinkedPlayer(ElementWithID[PlayerModel]):
         fields_str = ", ".join(fields)
 
         return f"Player({fields_str})"
-    
+
     def __str__(self) -> str:
         return self.value.web_name
-    
+
     def __eq__(self, other: object) -> bool:
         if isinstance(other, UnlinkedPlayer):
             return self.id == other.id
-    
+
         return False
-    
+
     def __hash__(self) -> int:
         raise NotImplementedError
-    
+
     @staticmethod
     def get_id_field_name() -> str:
         return "code"

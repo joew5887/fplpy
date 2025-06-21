@@ -14,19 +14,19 @@ class TypedOrderedSet(MutableSequence[E], Generic[E]):
     def __init__(self, iterable: Iterable[E]) -> None:
         self.__data = []
         self.__expected_type = None
-        
+
         for item in iterable:
             self.append(item)
-            
+
     def __eq__(self, other: object) -> bool:
         if isinstance(other, TypedOrderedSet):
             return self.__data == other.to_list()
-        
+
         raise NotImplementedError
-    
+
     @overload
     def __getitem__(self, index: int) -> E: ...
-    
+
     @overload
     def __getitem__(self, index: slice) -> TypedOrderedSet[E]: ...
 
@@ -35,10 +35,10 @@ class TypedOrderedSet(MutableSequence[E], Generic[E]):
             return TypedOrderedSet(self.__data[index])
 
         return self.__data[index]
-    
+
     @overload
     def __setitem__(self, index: int, value: E) -> None: ...
-    
+
     @overload
     def __setitem__(self, index: slice, value: Iterable[E]) -> None: ...
 
@@ -53,7 +53,7 @@ class TypedOrderedSet(MutableSequence[E], Generic[E]):
                 raise ValueError("Duplicates not allowed")
 
             self.__data[index] = value
-        
+
         elif isinstance(index, slice):
             if not isinstance(value, Iterable):  # Ensure iterable for slices
                 raise TypeError(f"Expected Iterable, got {type(value)}")
@@ -72,7 +72,7 @@ class TypedOrderedSet(MutableSequence[E], Generic[E]):
 
     @overload
     def __delitem__(self, index: int) -> None: ...
-    
+
     @overload
     def __delitem__(self, index: slice) -> None: ...
 
@@ -81,7 +81,7 @@ class TypedOrderedSet(MutableSequence[E], Generic[E]):
 
     def __len__(self) -> int:
         return len(self.__data)
-    
+
     @property
     def is_empty(self) -> bool:
         return self.__data == []
@@ -96,17 +96,17 @@ class TypedOrderedSet(MutableSequence[E], Generic[E]):
         if self.__expected_type is None:
             self.__expected_type = type(value)
             return
-        
+
         if not isinstance(value, self.__expected_type):
             raise TypeError(f"Expected type {self.__expected_type}")
 
     def to_list(self) -> list[E]:
         return self.__data.copy()
-    
+
     def get_random(self) -> E:
         return choice(self.__data)
-    
-    
+
+
 if __name__ == "__main__":
     data = [1, 2]
     y = TypedOrderedSet(data)

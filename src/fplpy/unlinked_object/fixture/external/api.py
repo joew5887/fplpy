@@ -10,5 +10,5 @@ class FixtureAPIDataSource(APIDataSourceModel[FixtureModel]):
 
     def _get_raw_data(self) -> list[dict[str, Any]]:
         data: list[dict[str, Any]] = call_api(get_url("FIXTURES"))
-        
+
         return data
