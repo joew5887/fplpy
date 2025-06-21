@@ -1,7 +1,9 @@
 from __future__ import annotations
-from typing import Optional
+from typing import Optional, Callable
+import pandas as pd
+from dataclasses import asdict
 
-from ..unlinked_object._element.repository import RepositoryWithID
+from ..unlinked_object._element.repository import RepositoryWithID, Repository
 from ..unlinked_object._element.source import T_source
 
 from ..unlinked_object.event.object import UnlinkedEvent
@@ -11,6 +13,11 @@ from ..unlinked_object.player.object import UnlinkedPlayer
 from ..unlinked_object.position.object import UnlinkedPosition
 from ..unlinked_object.team.object import UnlinkedTeam
 from ..unlinked_object.game_settings.object import UnlinkedGameSettings
+from ..unlinked_object.player_summary.object import UnlinkedPlayerSummary
+
+
+class LinkedPlayerSummary(UnlinkedPlayerSummary):
+    pass
 
 
 class LinkedEvent(UnlinkedEvent):
@@ -54,6 +61,19 @@ class LinkedPlayer(UnlinkedPlayer):
         res = source.get_filtered(lambda x: x.value.id == self.value.team)
 
         return LinkedTeam(res[0].value)
+    
+    def player_summary_objects(self, source: Callable[[int], Repository[LinkedPlayerSummary, T_source]]) -> list[LinkedPlayerSummary]:
+        repo = source(self.value.id)
+        
+        return repo.get_all()
+    
+    def player_summary_df(self, source: Callable[[int], Repository[LinkedPlayerSummary, T_source]]) -> pd.DataFrame:
+        objs = self.player_summary_objects(source)
+        
+        data = [asdict(obj.value) for obj in objs]
+        df = pd.DataFrame(data)
+        
+        return df
 
 
 class LinkedPosition(UnlinkedPosition):

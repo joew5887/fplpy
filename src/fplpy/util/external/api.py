@@ -21,9 +21,14 @@ FPL_URL_STEM = "https://fantasy.premierleague.com/api/"
 SUB_FPL_URLS = {
     "EVENTS": "events/",
     "BOOTSTRAP-STATIC": "bootstrap-static/",
-    "FIXTURES": "fixtures/"
+    "FIXTURES": "fixtures/",
+    "ELEMENT-SUMMARY": "element-summary/{}/",
 }
 
 
-def get_url(key: Literal["EVENTS", "BOOTSTRAP-STATIC", "ELEMENT-SUMMARY", "FIXTURES"]) -> str:
+def get_element_summary_url(player_id: int) -> str:
+    return FPL_URL_STEM + SUB_FPL_URLS["ELEMENT-SUMMARY"].format(player_id)
+
+
+def get_url(key: Literal["EVENTS", "BOOTSTRAP-STATIC", "FIXTURES"]) -> str:
     return FPL_URL_STEM + SUB_FPL_URLS[key]
