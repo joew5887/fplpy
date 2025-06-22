@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Optional, Callable
+from typing import Optional, Callable, overload, Any
 import pandas as pd
 from dataclasses import asdict
 
@@ -14,6 +14,9 @@ from ..unlinked_object.position.object import UnlinkedPosition
 from ..unlinked_object.team.object import UnlinkedTeam
 from ..unlinked_object.game_settings.object import UnlinkedGameSettings
 from ..unlinked_object.player_summary.object import UnlinkedPlayerSummary
+
+from ..unlinked_object.player_summary.external.github import PlayerSummaryGitHubDataSource
+from ..util.external.github import format_player_name
 
 
 class LinkedPlayerSummary(UnlinkedPlayerSummary):
@@ -62,13 +65,38 @@ class LinkedPlayer(UnlinkedPlayer):
 
         return LinkedTeam(res[0].value)
     
+    @overload
     def player_summary_objects(self, source: Callable[[int], Repository[LinkedPlayerSummary, T_source]]) -> list[LinkedPlayerSummary]:
-        repo = source(self.value.id)
-        
+        ...
+
+    @overload
+    def player_summary_objects(self, source: Callable[[str,str], Repository[LinkedPlayerSummary, T_source]], season: str) -> list[LinkedPlayerSummary]:
+        ...
+
+    def player_summary_objects(self, source: Callable, season: Optional[str] = None) -> list[LinkedPlayerSummary]:
+        repo: Repository[LinkedPlayerSummary, Any]
+
+        try:
+            repo = source(self.value.id)
+        except TypeError:
+            name = format_player_name(self.value.first_name, self.value.second_name, self.value.id)
+            repo = source(season, name)  # adjust args as needed
+
         return repo.get_all()
     
+    @overload
     def player_summary_df(self, source: Callable[[int], Repository[LinkedPlayerSummary, T_source]]) -> pd.DataFrame:
-        objs = self.player_summary_objects(source)
+        ...
+
+    @overload
+    def player_summary_df(self, source: Callable[[str,str], Repository[LinkedPlayerSummary, T_source]], season: str) -> pd.DataFrame:
+        ...
+    
+    def player_summary_df(self, source: Callable, season: Optional[str] = None) -> pd.DataFrame:
+        if season is None:
+            objs = self.player_summary_objects(source)
+        else:
+            objs = self.player_summary_objects(source, season)
         
         data = [asdict(obj.value) for obj in objs]
         df = pd.DataFrame(data)

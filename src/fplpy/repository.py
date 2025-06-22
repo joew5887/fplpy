@@ -14,6 +14,7 @@ from .unlinked_object.player_summary.external.api import PlayerSummaryAPIDataSou
 from .unlinked_object.fixture.external.github import FixtureGitHubDataSource
 from .unlinked_object.player.external.github import PlayerGitHubDataSource
 from .unlinked_object.team.external.github import TeamGitHubDataSource
+from .unlinked_object.player_summary.external.github import PlayerSummaryGitHubDataSource
 
 EventAPI = RepositoryWithID(LinkedEvent, EventAPIDataSource())
 FixtureAPI = RepositoryWithID(LinkedFixture, FixtureAPIDataSource())
@@ -38,3 +39,10 @@ def PlayerGitHub(season: str) -> RepositoryWithID[LinkedPlayer, PlayerGitHubData
 
 def TeamGitHub(season: str) -> RepositoryWithID[LinkedTeam, TeamGitHubDataSource]:
     return RepositoryWithID(LinkedTeam, TeamGitHubDataSource(season=season))
+
+
+def PlayerSummaryGitHub(season: str, player_name_formatted: str) -> Repository[LinkedPlayerSummary, PlayerSummaryGitHubDataSource]:
+    return Repository(
+        LinkedPlayerSummary,
+        PlayerSummaryGitHubDataSource(season=season, player_name_formatted=player_name_formatted)
+    )

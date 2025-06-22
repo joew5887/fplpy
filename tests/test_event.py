@@ -1,8 +1,9 @@
 import pytest
 
-from fplpy import PlayerAPI, PlayerSummaryAPI
+from fplpy import PlayerGitHub, PlayerSummaryGitHub
 
-season = "2023-24"
+season = "2022-23"
 
-x = PlayerAPI.get_all()[0]
-print(x.player_summary_df(PlayerSummaryAPI))
+x = PlayerGitHub(season).get_all()[0]
+print(x)
+print(x.player_summary_df(PlayerSummaryGitHub, season))
