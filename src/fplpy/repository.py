@@ -1,6 +1,5 @@
 from .unlinked_object._element.repository import RepositoryWithID, Repository
-from .linked_object.objects import LinkedEvent, LinkedFixture, LinkedLabel, \
-    LinkedPlayer, LinkedPosition, LinkedTeam, LinkedGameSettings, LinkedPlayerSummary
+from .linked_object.objects import *
 
 from .unlinked_object.event.external.api import EventAPIDataSource
 from .unlinked_object.fixture.external.api import FixtureAPIDataSource
@@ -10,6 +9,7 @@ from .unlinked_object.position.external.api import PositionAPIDataSource
 from .unlinked_object.team.external.api import TeamAPIDataSource
 from .unlinked_object.game_settings.external.api import GameSettingsAPIDataSource
 from .unlinked_object.player_summary.external.api import PlayerSummaryAPIDataSource
+from .unlinked_object.chip.external.api import ChipAPIDataSource
 
 from .unlinked_object.fixture.external.github import FixtureGitHubDataSource
 from .unlinked_object.player.external.github import PlayerGitHubDataSource
@@ -23,6 +23,7 @@ PlayerAPI = RepositoryWithID(LinkedPlayer, PlayerAPIDataSource())
 PositionAPI = RepositoryWithID(LinkedPosition, PositionAPIDataSource())
 TeamAPI = RepositoryWithID(LinkedTeam, TeamAPIDataSource())
 GameSettingsAPI = Repository(LinkedGameSettings, GameSettingsAPIDataSource())
+ChipAPI = Repository(LinkedChip, ChipAPIDataSource())
 
 
 def PlayerSummaryAPI(player_id: int) -> Repository[LinkedPlayerSummary, PlayerSummaryAPIDataSource]:

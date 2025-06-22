@@ -14,8 +14,9 @@ from ..unlinked_object.position.object import UnlinkedPosition
 from ..unlinked_object.team.object import UnlinkedTeam
 from ..unlinked_object.game_settings.object import UnlinkedGameSettings
 from ..unlinked_object.player_summary.object import UnlinkedPlayerSummary
+from ..unlinked_object.chip.object import UnlinkedChip
 
-from ..unlinked_object.player_summary.external.github import PlayerSummaryGitHubDataSource
+
 from ..util.external.github import format_player_name
 
 
@@ -113,4 +114,8 @@ class LinkedTeam(UnlinkedTeam):
 
 
 class LinkedGameSettings(UnlinkedGameSettings):
+    pass
+
+
+class LinkedChip(UnlinkedChip):
     pass
