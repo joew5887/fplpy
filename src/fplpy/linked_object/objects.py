@@ -16,6 +16,8 @@ from ..unlinked_object.game_settings.object import UnlinkedGameSettings
 from ..unlinked_object.player_summary.object import UnlinkedPlayerSummary
 from ..unlinked_object.chip.object import UnlinkedChip
 
+from ..unlinked_object.event.repository import EventRepository
+
 
 from ..util.external.github import format_player_name
 
@@ -39,13 +41,8 @@ class LinkedFixture(UnlinkedFixture):
 
         return LinkedTeam(res[0].value)
 
-    def event(self, source: RepositoryWithID[LinkedEvent, T_source]) -> Optional[LinkedEvent]:
-        res = source.get_by_id(self.value.event)
-
-        if res is not None:
-            return LinkedEvent(res.value)
-
-        return None
+    def event(self, source: EventRepository[LinkedEvent, T_source]) -> Optional[LinkedEvent]:
+        return source.get_by_id(self.value.event)
 
 
 class LinkedLabel(UnlinkedLabel):

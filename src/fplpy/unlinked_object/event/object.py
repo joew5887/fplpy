@@ -25,12 +25,12 @@ class UnlinkedEvent(ElementWithID[EventModel]):
 
     def __eq__(self, other: object) -> bool:
         if isinstance(other, UnlinkedEvent):
-            return self.id == other.id and self.value.name == other.value.name
+            return self.id == other.id
 
         return False
 
     def __hash__(self) -> int:
-        return hash((self.id, self.value.name))
+        return hash(self.id)
 
     @staticmethod
     def get_id_field_name() -> str:

@@ -23,5 +23,8 @@ class RepositoryWithID(Repository[T_element_with_id, T_source], ABC, Generic[T_e
 
         if len(res) == 1:
             return res[0]
+        
+        if len(res) == 0:
+            return None
 
-        return None
+        raise ValueError(f"get_by_id() expected 1 or 0 results, obtained {len(res)} results")

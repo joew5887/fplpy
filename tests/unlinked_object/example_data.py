@@ -4,6 +4,7 @@ from fplpy.unlinked_object.position.model import PositionModel
 from fplpy.unlinked_object.player.model import PlayerModel
 from fplpy.unlinked_object.fixture.model import FixtureModel
 from fplpy.unlinked_object.event.model import EventModel
+from fplpy.unlinked_object.chip.model import ChipModel
 
 
 def team_model() -> TeamModel:
@@ -362,4 +363,10 @@ def event_model() -> EventModel:
       "transfers_made": 0,
       "most_captained": 351,
       "most_vice_captained": 351
+    })
+
+
+def chip_model() -> ChipModel:
+    return ChipModel(**{
+        "id":1,"name":"wildcard","number":1,"start_event":2,"stop_event":19,"chip_type":"transfer"
     })
