@@ -4,10 +4,10 @@ from .model import PositionModel
 from typing import TypeVar
 
 
-T_position = TypeVar("T_position", bound="UnlinkedPosition")
+T_position = TypeVar("T_position", bound="Position")
 
 
-class UnlinkedPosition(ElementWithID[PositionModel]):
+class Position(ElementWithID[PositionModel]):
     def __repr__(self) -> str:
         fields = [
             f"id(ID)={self.id}",
@@ -22,7 +22,7 @@ class UnlinkedPosition(ElementWithID[PositionModel]):
         return self.value.singular_name
 
     def __eq__(self, other: object) -> bool:
-        if isinstance(other, UnlinkedPosition):
+        if isinstance(other, Position):
             return self.id == other.id and self.value.singular_name == other.value.singular_name
 
         return False

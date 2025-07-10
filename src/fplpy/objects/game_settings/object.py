@@ -1,15 +1,15 @@
 from __future__ import annotations
 from .._element.element import Element
-from .model import PlayerSummaryModel
+from .model import GameSettingsModel
 from typing import TypeVar
 
 
-T_player_summary = TypeVar("T_player_summary", bound="UnlinkedPlayerSummary")
+T_GameSettings = TypeVar("T_GameSettings", bound="GameSettings")
 
 
-class UnlinkedPlayerSummary(Element[PlayerSummaryModel]):
+class GameSettings(Element[GameSettingsModel]):
     def __repr__(self) -> str:
-        return self.value.kickoff_time
+        raise NotImplementedError
 
     def __str__(self) -> str:
         raise NotImplementedError

@@ -1,13 +1,13 @@
 from __future__ import annotations
 from .._element.element import ElementWithID
-from .model import TeamModel
+from .model import ChipModel
 from typing import TypeVar
 
 
-T_team = TypeVar("T_team", bound="UnlinkedTeam")
+T_chip = TypeVar("T_chip", bound="Chip")
 
 
-class UnlinkedTeam(ElementWithID[TeamModel]):
+class Chip(ElementWithID[ChipModel]):
     def __repr__(self) -> str:
         fields = [
             f"{type(self).get_id_field_name()}(ID)={self.id}",
@@ -15,20 +15,20 @@ class UnlinkedTeam(ElementWithID[TeamModel]):
         ]
         fields_str = ", ".join(fields)
 
-        return f"Team({fields_str})"
+        return f"Chip({fields_str})"
 
     def __str__(self) -> str:
         return self.value.name
 
     def __eq__(self, other: object) -> bool:
-        if isinstance(other, UnlinkedTeam):
-            return self.id == other.id and self.value.name == other.value.name
+        if isinstance(other, Chip):
+            return self.value == other.value
 
         return False
 
     def __hash__(self) -> int:
-        return hash((self.id, self.value.name))
+        return hash(self.id)
 
     @staticmethod
     def get_id_field_name() -> str:
-        return "code"
+        return "id"

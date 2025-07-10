@@ -1,14 +1,25 @@
 import pytest
 import os
 
-from fplpy import EventLocal2425
+import fplpy
+
+ctx = fplpy.APIRepositoryFactory()
+players = ctx.players()
+x = players.get_filtered(lambda p: p.value.now_cost >= 90)
+print(x)
+"""
+from fplpy import BaseFPLRepositoryFactory, APIPresetRepositoryFactory
+from fplpy.repository_factory.general import RepoType, Source
 
 season = "2022-23"
-
-#x = PlayerGitHub(season).get_all()[0]
-#print(x)
-#print(x.player_summary_df(PlayerSummaryGitHub, season))
-#src\fplpy\unlinked_object\event\external\2024_25_local.txt
 path = os.path.join("src", "fplpy", "unlinked_object", "event", "external", "2024_25_local.txt")
-y = EventLocal2425(path).get_all()[0]
-print(EventLocal2425(path).get_next_event(y))
+
+source = Source.GITHUB
+player_repo = BaseFPLRepositoryFactory.players(source, season=season)
+x = player_repo.get_all()[160]
+
+y = BaseFPLRepositoryFactory.player_summary(Source.GITHUB, x, season=season)
+print(y.as_df())
+
+print()
+"""

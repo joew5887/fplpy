@@ -4,10 +4,10 @@ from .model import PlayerModel
 from typing import TypeVar
 
 
-T_player = TypeVar("T_player", bound="UnlinkedPlayer")
+T_player = TypeVar("T_player", bound="Player")
 
 
-class UnlinkedPlayer(ElementWithID[PlayerModel]):
+class Player(ElementWithID[PlayerModel]):
     def __repr__(self) -> str:
         fields = [
             f"code(ID)={self.id}",
@@ -23,7 +23,7 @@ class UnlinkedPlayer(ElementWithID[PlayerModel]):
         return self.value.web_name
 
     def __eq__(self, other: object) -> bool:
-        if isinstance(other, UnlinkedPlayer):
+        if isinstance(other, Player):
             return self.id == other.id
 
         return False

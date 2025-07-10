@@ -1,6 +1,6 @@
 import pytest
-from fplpy.unlinked_object.team.object import UnlinkedTeam
-from fplpy.unlinked_object.team.model import TeamModel
+from fplpy.objects.team.object import Team
+from fplpy.objects.team.model import TeamModel
 
 
 @pytest.fixture
@@ -18,9 +18,9 @@ def sample_team_1_model() -> TeamModel:
 
 
 @pytest.fixture
-def sample_team_1(sample_team_1_model: TeamModel) -> UnlinkedTeam:
+def sample_team_1(sample_team_1_model: TeamModel) -> Team:
     """Fixture providing a sample Team instance."""
-    return UnlinkedTeam(sample_team_1_model)
+    return Team(sample_team_1_model)
 
 
 @pytest.fixture
@@ -38,19 +38,19 @@ def sample_team_2_model() -> TeamModel:
 
 
 @pytest.fixture
-def sample_team_2(sample_team_2_model: TeamModel) -> UnlinkedTeam:
+def sample_team_2(sample_team_2_model: TeamModel) -> Team:
     """Fixture providing a sample Team instance."""
-    return UnlinkedTeam(sample_team_2_model)
+    return Team(sample_team_2_model)
 
 
 def test_team_initialization(sample_team_1, sample_team_1_model) -> None:
-    assert isinstance(sample_team_1, UnlinkedTeam)
+    assert isinstance(sample_team_1, Team)
     assert sample_team_1.value == sample_team_1_model
     assert sample_team_1.id == sample_team_1_model.code  # Ensuring correct ID mapping
     
     
 def test_team_equality(sample_team_1, sample_team_1_model):
-    another_team = UnlinkedTeam(sample_team_1_model)
+    another_team = Team(sample_team_1_model)
     assert sample_team_1 == another_team  # Same attributes → should be equal
 
 
@@ -60,4 +60,4 @@ def test_team_hash(sample_team_1):
 
 
 def test_get_id_field_name():
-    assert UnlinkedTeam.get_id_field_name() == "code"
+    assert Team.get_id_field_name() == "code"

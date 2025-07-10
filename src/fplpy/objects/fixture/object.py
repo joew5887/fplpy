@@ -4,10 +4,10 @@ from .model import FixtureModel
 from typing import TypeVar
 
 
-T_fixture = TypeVar("T_fixture", bound="UnlinkedFixture")
+T_fixture = TypeVar("T_fixture", bound="Fixture")
 
 
-class UnlinkedFixture(ElementWithID[FixtureModel]):
+class Fixture(ElementWithID[FixtureModel]):
     def __repr__(self) -> str:
         fields = [
             f"{type(self).get_id_field_name()}(ID)={self.id}",
@@ -23,7 +23,7 @@ class UnlinkedFixture(ElementWithID[FixtureModel]):
         return f"{self.value.team_h} v {self.value.team_a}"
 
     def __eq__(self, other: object) -> bool:
-        if isinstance(other, UnlinkedFixture):
+        if isinstance(other, Fixture):
             return self.value == other.value
 
         return False

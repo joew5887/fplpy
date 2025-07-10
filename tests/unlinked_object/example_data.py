@@ -1,10 +1,10 @@
-from fplpy.unlinked_object.team.model import TeamModel
-from fplpy.unlinked_object.label.model import LabelModel
-from fplpy.unlinked_object.position.model import PositionModel
-from fplpy.unlinked_object.player.model import PlayerModel
-from fplpy.unlinked_object.fixture.model import FixtureModel
-from fplpy.unlinked_object.event.model import EventModel
-from fplpy.unlinked_object.chip.model import ChipModel
+from fplpy.objects.team.model import TeamModel
+from fplpy.objects.label.model import LabelModel
+from fplpy.objects.position.model import PositionModel
+from fplpy.objects.player.model import PlayerModel
+from fplpy.objects.fixture.model import FixtureModel
+from fplpy.objects.event.model import EventModel
+from fplpy.objects.chip.model import ChipModel
 
 
 def team_model() -> TeamModel:
