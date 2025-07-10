@@ -3,7 +3,7 @@ import os
 
 import fplpy
 
-ctx = fplpy.APIRepositoryFactory()
+ctx = fplpy.GitHubRepositoryFactory("2022-23")
 players = ctx.players()
 x = players.get_filtered(lambda p: p.value.now_cost >= 90)
 print(x)
