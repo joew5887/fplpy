@@ -1,5 +1,6 @@
 from __future__ import annotations
-from .element_template import ElementTemplateWithID, ElementTemplate
+from .element_template import ElementTemplateWithID, ElementTemplate, \
+    ElementTemplateWithCode, ElementTemplateWithIDandCode
 from .model import T_model
 from abc import ABC
 from typing import Generic
@@ -24,3 +25,43 @@ class ElementWithID(Element[T_model], ElementTemplateWithID[T_model], ABC, Gener
             raise TypeError("ID is not an integer")
 
         return id_
+    
+    
+class ElementWithCode(Element[T_model], ElementTemplateWithCode[T_model], ABC, Generic[T_model]):
+    @property
+    def code(self) -> int:
+        code = getattr(self.value, type(self).get_code_field_name(), None)
+
+        if code is None:
+            raise ValueError("check get_code_field_name(), it may not exist")
+
+        if not isinstance(code, int):
+            raise TypeError("Code is not an integer")
+
+        return code
+    
+    
+class ElementWithIDandCode(Element[T_model], ElementTemplateWithIDandCode[T_model], ABC, Generic[T_model]):
+    @property
+    def id(self) -> int:
+        id_ = getattr(self.value, type(self).get_id_field_name(), None)
+
+        if id_ is None:
+            raise ValueError("check get_id_field_name(), it may not exist")
+
+        if not isinstance(id_, int):
+            raise TypeError("ID is not an integer")
+
+        return id_
+    
+    @property
+    def code(self) -> int:
+        code = getattr(self.value, type(self).get_code_field_name(), None)
+
+        if code is None:
+            raise ValueError("check get_code_field_name(), it may not exist")
+
+        if not isinstance(code, int):
+            raise TypeError("Code is not an integer")
+
+        return code

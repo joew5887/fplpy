@@ -1,5 +1,5 @@
 from __future__ import annotations
-from .._element.element import ElementWithID
+from .._element.element import ElementWithIDandCode
 from .model import PlayerModel
 from typing import TypeVar
 
@@ -7,7 +7,7 @@ from typing import TypeVar
 T_player = TypeVar("T_player", bound="Player")
 
 
-class Player(ElementWithID[PlayerModel]):
+class Player(ElementWithIDandCode[PlayerModel]):
     def __repr__(self) -> str:
         fields = [
             f"code(ID)={self.id}",
@@ -33,4 +33,8 @@ class Player(ElementWithID[PlayerModel]):
 
     @staticmethod
     def get_id_field_name() -> str:
+        return "id"
+    
+    @staticmethod
+    def get_code_field_name() -> str:
         return "code"

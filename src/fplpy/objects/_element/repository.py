@@ -2,7 +2,8 @@ from __future__ import annotations
 from .source import T_source
 from abc import ABC
 from typing import Generic, Callable, Optional, Type
-from .element_template import T_element_with_id, T_element
+from .element_template import T_element_with_id, T_element, T_element_with_code, \
+    T_element_with_id_and_code
 
 
 class Repository(ABC, Generic[T_element, T_source]):
@@ -28,3 +29,25 @@ class RepositoryWithID(Repository[T_element_with_id, T_source], ABC, Generic[T_e
             return None
 
         raise ValueError(f"get_by_id() expected 1 or 0 results, obtained {len(res)} results")
+    
+    
+class RepositoryWithCode(Repository[T_element_with_code, T_source], ABC, Generic[T_element_with_code, T_source]):
+    def get_by_code(self, code: int) -> Optional[T_element_with_code]:
+        res = self.get_filtered(lambda x: x.code == code)
+
+        if len(res) == 1:
+            return res[0]
+        
+        if len(res) == 0:
+            return None
+
+        raise ValueError(f"get_by_code() expected 1 or 0 results, obtained {len(res)} results")
+
+
+class RepositoryWithIDandCode(
+    RepositoryWithID[T_element_with_id_and_code, T_source],
+    RepositoryWithCode[T_element_with_id_and_code, T_source],
+    ABC,
+    Generic[T_element_with_id_and_code, T_source]
+    ):
+    ...

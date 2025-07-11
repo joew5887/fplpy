@@ -1,5 +1,5 @@
 from __future__ import annotations
-from .._element.element import ElementWithID
+from .._element.element import ElementWithIDandCode
 from .model import FixtureModel
 from typing import TypeVar
 
@@ -7,7 +7,7 @@ from typing import TypeVar
 T_fixture = TypeVar("T_fixture", bound="Fixture")
 
 
-class Fixture(ElementWithID[FixtureModel]):
+class Fixture(ElementWithIDandCode[FixtureModel]):
     def __repr__(self) -> str:
         fields = [
             f"{type(self).get_id_field_name()}(ID)={self.id}",
@@ -33,4 +33,8 @@ class Fixture(ElementWithID[FixtureModel]):
 
     @staticmethod
     def get_id_field_name() -> str:
+        return "id"
+    
+    @staticmethod
+    def get_code_field_name() -> str:
         return "code"

@@ -1,5 +1,5 @@
 from __future__ import annotations
-from .._element.element import ElementWithID
+from .._element.element import ElementWithIDandCode
 from .model import TeamModel
 from typing import TypeVar
 
@@ -7,7 +7,7 @@ from typing import TypeVar
 T_team = TypeVar("T_team", bound="Team")
 
 
-class Team(ElementWithID[TeamModel]):
+class Team(ElementWithIDandCode[TeamModel]):
     def __repr__(self) -> str:
         fields = [
             f"{type(self).get_id_field_name()}(ID)={self.id}",
@@ -31,4 +31,8 @@ class Team(ElementWithID[TeamModel]):
 
     @staticmethod
     def get_id_field_name() -> str:
+        return "id"
+    
+    @staticmethod
+    def get_code_field_name() -> str:
         return "code"

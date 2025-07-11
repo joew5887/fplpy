@@ -7,6 +7,8 @@ from typing import TypeVar, Generic, Any
 T = TypeVar("T")
 T_element = TypeVar("T_element", bound="ElementTemplate[Any]")
 T_element_with_id = TypeVar("T_element_with_id", bound="ElementTemplateWithID[Any]")
+T_element_with_code = TypeVar("T_element_with_code", bound="ElementTemplateWithCode[Any]")
+T_element_with_id_and_code = TypeVar("T_element_with_id_and_code", bound="ElementTemplateWithIDandCode[Any]")
 
 
 class SingleArgumentInitialisable(ABC, Generic[T]):
@@ -40,6 +42,16 @@ class HasID(ABC):
     @staticmethod
     @abstractmethod
     def get_id_field_name() -> str: ...
+    
+
+class HasCode(ABC):
+    @property
+    @abstractmethod
+    def code(self) -> int: ...
+
+    @staticmethod
+    @abstractmethod
+    def get_code_field_name() -> str: ...
 
 
 class ElementTemplate(SingleArgumentInitialisable[T_model], Representable, Comparable, Hashable, ABC, Generic[T_model]):
@@ -47,4 +59,12 @@ class ElementTemplate(SingleArgumentInitialisable[T_model], Representable, Compa
 
 
 class ElementTemplateWithID(ElementTemplate[T_model], HasID, ABC, Generic[T_model]):
+    ...
+    
+    
+class ElementTemplateWithCode(ElementTemplate[T_model], HasCode, ABC, Generic[T_model]):
+    ...
+    
+
+class ElementTemplateWithIDandCode(ElementTemplateWithID[T_model], ElementTemplateWithCode[T_model], ABC, Generic[T_model]):
     ...
