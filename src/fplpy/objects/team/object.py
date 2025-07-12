@@ -1,7 +1,7 @@
 from __future__ import annotations
 from .._element.element import ElementWithIDandCode
 from .model import TeamModel
-from typing import TypeVar
+from typing import Hashable, TypeVar
 
 
 T_team = TypeVar("T_team", bound="Team")
@@ -10,7 +10,8 @@ T_team = TypeVar("T_team", bound="Team")
 class Team(ElementWithIDandCode[TeamModel]):
     def __repr__(self) -> str:
         fields = [
-            f"{type(self).get_id_field_name()}(ID)={self.id}",
+            f"ID={self.id}",
+            f"CODE={self.code}",
             f"name='{self.value.name}'",
         ]
         fields_str = ", ".join(fields)
@@ -20,19 +21,17 @@ class Team(ElementWithIDandCode[TeamModel]):
     def __str__(self) -> str:
         return self.value.name
 
-    def __eq__(self, other: object) -> bool:
-        if isinstance(other, Team):
-            return self.id == other.id and self.value.name == other.value.name
-
-        return False
-
-    def __hash__(self) -> int:
-        return hash((self.id, self.value.name))
-
-    @staticmethod
-    def get_id_field_name() -> str:
-        return "id"
+    @property
+    def id(self) -> int:
+        return self.value.id
     
-    @staticmethod
-    def get_code_field_name() -> str:
-        return "code"
+    @property
+    def code(self) -> int:
+        return self.value.code
+    
+    def values_to_hash_and_eq(self) -> tuple[Hashable, ...]:
+        return (
+            "Team",
+            self.id,
+            self.code,
+        )

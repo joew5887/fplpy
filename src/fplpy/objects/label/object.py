@@ -1,7 +1,7 @@
 from __future__ import annotations
 from .._element.element import Element
 from .model import LabelModel
-from typing import TypeVar
+from typing import TypeVar, Hashable
 
 
 T_label = TypeVar("T_label", bound="Label")
@@ -20,11 +20,8 @@ class Label(Element[LabelModel]):
     def __str__(self) -> str:
         return self.value.label
 
-    def __eq__(self, other: object) -> bool:
-        if isinstance(other, Label):
-            return self.value.label == other.value.label and self.value.name == other.value.name
-
-        return False
-
-    def __hash__(self) -> int:
-        return hash((self.value.label, self.value.name))
+    def values_to_hash_and_eq(self) -> tuple[Hashable, ...]:
+        return (
+            "Label",
+            self.value,
+        )

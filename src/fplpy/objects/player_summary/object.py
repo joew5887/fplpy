@@ -1,7 +1,7 @@
 from __future__ import annotations
 from .._element.element import Element
 from .model import PlayerSummaryModel
-from typing import TypeVar
+from typing import TypeVar, Hashable
 
 
 T_player_summary = TypeVar("T_player_summary", bound="PlayerSummary")
@@ -9,13 +9,20 @@ T_player_summary = TypeVar("T_player_summary", bound="PlayerSummary")
 
 class PlayerSummary(Element[PlayerSummaryModel]):
     def __repr__(self) -> str:
-        return self.value.kickoff_time
+        fields = [
+            f"element='{self.value.element}'",
+            f"fixture={self.value.fixture}",
+        ]
+        fields_str = ", ".join(fields)
+
+        return f"PlayerSummary({fields_str})"
 
     def __str__(self) -> str:
-        raise NotImplementedError
+        return repr(self)
 
-    def __eq__(self, other: object) -> bool:
-        raise NotImplementedError
-
-    def __hash__(self) -> int:
-        raise NotImplementedError
+    def values_to_hash_and_eq(self) -> tuple[Hashable, ...]:
+        return (
+            "PlayerSummary",
+            self.value.element,
+            self.value.fixture,
+        )

@@ -3,7 +3,7 @@ from .._element.element import ElementWithID
 from .model import EventModel
 from datetime import datetime
 from ...util.dt import string_to_datetime
-from typing import TypeVar
+from typing import TypeVar, Hashable
 
 
 T_event = TypeVar("T_event", bound="Event")
@@ -12,7 +12,7 @@ T_event = TypeVar("T_event", bound="Event")
 class Event(ElementWithID[EventModel]):
     def __repr__(self) -> str:
         fields = [
-            f"{type(self).get_id_field_name()}(ID)={self.id}",
+            f"ID={self.id}",
             f"name='{self.value.name}'",
             f"deadline_time='{self.value.deadline_time}'"
         ]
@@ -22,19 +22,10 @@ class Event(ElementWithID[EventModel]):
 
     def __str__(self) -> str:
         return self.value.name
-
-    def __eq__(self, other: object) -> bool:
-        if isinstance(other, Event):
-            return self.id == other.id
-
-        return False
-
-    def __hash__(self) -> int:
-        return hash(self.id)
-
-    @staticmethod
-    def get_id_field_name() -> str:
-        return "id"
+    
+    @property
+    def id(self) -> int:
+        return self.value.id
 
     @property
     def deadline_time(self) -> datetime:
@@ -55,3 +46,11 @@ class Event(ElementWithID[EventModel]):
             True if gameweek has started, False otherwise.
         """
         return datetime.now() > self.deadline_time
+    
+    def values_to_hash_and_eq(self) -> tuple[Hashable, ...]:
+        return (
+            "Event",
+            self.id,
+            self.value.name,
+            self.value.deadline_time
+        )

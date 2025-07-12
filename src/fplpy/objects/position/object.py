@@ -1,7 +1,7 @@
 from __future__ import annotations
 from .._element.element import ElementWithID
 from .model import PositionModel
-from typing import TypeVar
+from typing import TypeVar, Hashable
 
 
 T_position = TypeVar("T_position", bound="Position")
@@ -10,7 +10,7 @@ T_position = TypeVar("T_position", bound="Position")
 class Position(ElementWithID[PositionModel]):
     def __repr__(self) -> str:
         fields = [
-            f"id(ID)={self.id}",
+            f"ID={self.id}",
             f"singular_name='{self.value.singular_name}'",
             f"singular_name_short='{self.value.singular_name_short}'"
         ]
@@ -21,15 +21,16 @@ class Position(ElementWithID[PositionModel]):
     def __str__(self) -> str:
         return self.value.singular_name
 
-    def __eq__(self, other: object) -> bool:
-        if isinstance(other, Position):
-            return self.id == other.id and self.value.singular_name == other.value.singular_name
-
-        return False
-
-    def __hash__(self) -> int:
-        return hash((self.id, self.value.singular_name))
-
-    @staticmethod
-    def get_id_field_name() -> str:
-        return "id"
+    @property
+    def id(self) -> int:
+        return self.value.id
+    
+    def values_to_hash_and_eq(self) -> tuple[Hashable, ...]:
+        return (
+            "Position",
+            self.id,
+            self.value.plural_name,
+            self.value.plural_name_short,
+            self.value.singular_name,
+            self.value.singular_name_short,
+        )

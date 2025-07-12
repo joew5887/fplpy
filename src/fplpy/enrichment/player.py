@@ -11,7 +11,7 @@ class PlayerEnrichmentOutput(TypedDict):
 class PlayerEnricher(BaseEnricher[ObjTypes.Player, PlayerEnrichmentOutput]):
     def enrich(self, obj: ObjTypes.Player) -> PlayerEnrichmentOutput:
         team_repo = self._repo_factory.teams()
-        team = team_repo.get_by_id(obj.value.team_code)
+        team = team_repo.get_by_code(obj.value.team_code)
         
         position_repo = self._repo_factory.positions()
         position = position_repo.get_by_id(obj.value.element_type)

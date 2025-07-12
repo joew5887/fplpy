@@ -1,9 +1,8 @@
 from __future__ import annotations
-from .element_template import ElementTemplateWithID, ElementTemplate, \
-    ElementTemplateWithCode, ElementTemplateWithIDandCode
+from .element_template import ElementTemplateWithID, ElementTemplate, ElementTemplateWithIDandCode
 from .model import T_model
-from abc import ABC
-from typing import Generic
+from abc import ABC, abstractmethod
+from typing import Generic, Hashable
 
 
 class Element(ElementTemplate[T_model], ABC, Generic[T_model]):
@@ -11,57 +10,24 @@ class Element(ElementTemplate[T_model], ABC, Generic[T_model]):
 
     def __init__(self, attributes: T_model) -> None:
         self.value = attributes
+        
+    def __hash__(self) -> int:
+        return hash(self.values_to_hash_and_eq())
+    
+    def __eq__(self, other: object) -> bool:
+        if isinstance(other, Element):
+            return self.values_to_hash_and_eq() == other.values_to_hash_and_eq()
+
+        return False
+
+    @abstractmethod
+    def values_to_hash_and_eq(self) -> tuple[Hashable, ...]:
+        ...
 
 
 class ElementWithID(Element[T_model], ElementTemplateWithID[T_model], ABC, Generic[T_model]):
-    @property
-    def id(self) -> int:
-        id_ = getattr(self.value, type(self).get_id_field_name(), None)
-
-        if id_ is None:
-            raise ValueError("check get_id_field_name(), it may not exist")
-
-        if not isinstance(id_, int):
-            raise TypeError("ID is not an integer")
-
-        return id_
-    
-    
-class ElementWithCode(Element[T_model], ElementTemplateWithCode[T_model], ABC, Generic[T_model]):
-    @property
-    def code(self) -> int:
-        code = getattr(self.value, type(self).get_code_field_name(), None)
-
-        if code is None:
-            raise ValueError("check get_code_field_name(), it may not exist")
-
-        if not isinstance(code, int):
-            raise TypeError("Code is not an integer")
-
-        return code
+    ...
     
     
 class ElementWithIDandCode(Element[T_model], ElementTemplateWithIDandCode[T_model], ABC, Generic[T_model]):
-    @property
-    def id(self) -> int:
-        id_ = getattr(self.value, type(self).get_id_field_name(), None)
-
-        if id_ is None:
-            raise ValueError("check get_id_field_name(), it may not exist")
-
-        if not isinstance(id_, int):
-            raise TypeError("ID is not an integer")
-
-        return id_
-    
-    @property
-    def code(self) -> int:
-        code = getattr(self.value, type(self).get_code_field_name(), None)
-
-        if code is None:
-            raise ValueError("check get_code_field_name(), it may not exist")
-
-        if not isinstance(code, int):
-            raise TypeError("Code is not an integer")
-
-        return code
+    ...
