@@ -37,15 +37,15 @@ class ObjTypes:
 
 
 class RepoTypes:
-    Chip: TypeAlias = ChipRepository[ObjTypes.Chip]
-    Event: TypeAlias = EventRepository[ObjTypes.Event]
-    Fixture: TypeAlias = FixtureRepository[ObjTypes.Fixture]
-    GameSettings: TypeAlias = GameSettingsRepository[ObjTypes.GameSettings]
-    Label: TypeAlias = LabelRepository[ObjTypes.Label]
-    Player: TypeAlias = PlayerRepository[ObjTypes.Player]
-    PlayerSummary: TypeAlias = PlayerSummaryRepository[ObjTypes.PlayerSummary]
-    Position: TypeAlias = PositionRepository[ObjTypes.Position]
-    Team: TypeAlias = TeamRepository[ObjTypes.Team]
+    ChipRepo: TypeAlias = ChipRepository[ObjTypes.Chip]
+    EventRepo: TypeAlias = EventRepository[ObjTypes.Event]
+    FixtureRepo: TypeAlias = FixtureRepository[ObjTypes.Fixture]
+    GameSettingsRepo: TypeAlias = GameSettingsRepository[ObjTypes.GameSettings]
+    LabelRepo: TypeAlias = LabelRepository[ObjTypes.Label]
+    PlayerRepo: TypeAlias = PlayerRepository[ObjTypes.Player]
+    PlayerSummaryRepo: TypeAlias = PlayerSummaryRepository[ObjTypes.PlayerSummary]
+    PositionRepo: TypeAlias = PositionRepository[ObjTypes.Position]
+    TeamRepo: TypeAlias = TeamRepository[ObjTypes.Team]
     
 
 class ObjNames(str, Enum):

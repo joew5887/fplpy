@@ -4,37 +4,37 @@ from abc import ABC, abstractmethod
 
 class RepositoryFactoryTemplate(ABC):
     @abstractmethod
-    def chips(self) -> RepoTypes.Chip:
+    def chips(self) -> RepoTypes.ChipRepo:
         ...
     
     @abstractmethod
-    def players(self) -> RepoTypes.Player:
+    def players(self) -> RepoTypes.PlayerRepo:
         ...
     
     @abstractmethod
-    def events(self) -> RepoTypes.Event:
+    def events(self) -> RepoTypes.EventRepo:
         ...
     
     @abstractmethod
-    def player_summary(self, player: ObjTypes.Player) -> RepoTypes.PlayerSummary:
+    def player_summary(self, player: ObjTypes.Player) -> RepoTypes.PlayerSummaryRepo:
         ...
     
     @abstractmethod
-    def fixtures(self) -> RepoTypes.Fixture:
+    def fixtures(self) -> RepoTypes.FixtureRepo:
         ...
     
     @abstractmethod
-    def teams(self) -> RepoTypes.Team:
+    def teams(self) -> RepoTypes.TeamRepo:
         ...
     
     @abstractmethod
-    def positions(self) -> RepoTypes.Position:
+    def positions(self) -> RepoTypes.PositionRepo:
         ...
     
     @abstractmethod
-    def game_settings(self) -> RepoTypes.GameSettings:
+    def game_settings(self) -> RepoTypes.GameSettingsRepo:
         ...
     
     @abstractmethod
-    def labels(self) -> RepoTypes.Label:
+    def labels(self) -> RepoTypes.LabelRepo:
         ...

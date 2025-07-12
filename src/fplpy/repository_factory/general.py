@@ -31,27 +31,27 @@ class Source(str, Enum):
 
 class IndividualRepositoryFactories:
     @staticmethod
-    def chips(source: Source) -> RepoTypes.Chip:
+    def chips(source: Source) -> RepoTypes.ChipRepo:
         if source == Source.API:
-            return RepoTypes.Chip(ObjTypes.Chip, ChipAPIDataSource())
+            return RepoTypes.ChipRepo(ObjTypes.Chip, ChipAPIDataSource())
 
         raise NotImplementedError(_not_implemented_error_msg(ObjNames.CHIP, source))
 
     @staticmethod
-    def players(source: Source, **kwargs) -> RepoTypes.Player:
+    def players(source: Source, **kwargs) -> RepoTypes.PlayerRepo:
         if source == Source.API:
-            return RepoTypes.Player(ObjTypes.Player, PlayerAPIDataSource())
+            return RepoTypes.PlayerRepo(ObjTypes.Player, PlayerAPIDataSource())
         elif source == Source.GITHUB:
             season = process_season_param(kwargs.get("season"))
 
-            return RepoTypes.Player(ObjTypes.Player, PlayerGitHubDataSource(season=season))
+            return RepoTypes.PlayerRepo(ObjTypes.Player, PlayerGitHubDataSource(season=season))
 
         raise NotImplementedError(_not_implemented_error_msg(ObjNames.PLAYER, source))
 
     @staticmethod
-    def events(source: Source, **kwargs) -> RepoTypes.Event:
+    def events(source: Source, **kwargs) -> RepoTypes.EventRepo:
         if source == Source.API:
-            return RepoTypes.Event(ObjTypes.Event, EventAPIDataSource())
+            return RepoTypes.EventRepo(ObjTypes.Event, EventAPIDataSource())
         elif source == Source.LOCAL:
             file_path = kwargs.get("file_path")
             if file_path is None:
@@ -60,16 +60,16 @@ class IndividualRepositoryFactories:
             if not isinstance(file_path, str):
                 raise TypeError(f"'file_path' must be a str")
 
-            return RepoTypes.Event(ObjTypes.Event, EventLocalDataSource(file_path=file_path))
+            return RepoTypes.EventRepo(ObjTypes.Event, EventLocalDataSource(file_path=file_path))
 
         raise NotImplementedError(_not_implemented_error_msg(ObjNames.EVENT, source))
 
     @staticmethod
-    def player_summary(source: Source, player: ObjTypes.Player, **kwargs) -> RepoTypes.PlayerSummary:
+    def player_summary(source: Source, player: ObjTypes.Player, **kwargs) -> RepoTypes.PlayerSummaryRepo:
         if source == Source.API:
             player_id = player.value.id
 
-            return RepoTypes.PlayerSummary(ObjTypes.PlayerSummary, PlayerSummaryAPIDataSource(player_id=player_id))
+            return RepoTypes.PlayerSummaryRepo(ObjTypes.PlayerSummary, PlayerSummaryAPIDataSource(player_id=player_id))
 
         elif source == Source.GITHUB:
             season = process_season_param(kwargs.get("season"))
@@ -78,7 +78,7 @@ class IndividualRepositoryFactories:
                 player.value.first_name, player.value.second_name, player.value.id
             )
 
-            return RepoTypes.PlayerSummary(
+            return RepoTypes.PlayerSummaryRepo(
                 ObjTypes.PlayerSummary,
                 PlayerSummaryGitHubDataSource(
                     season=season,
@@ -89,45 +89,45 @@ class IndividualRepositoryFactories:
         raise NotImplementedError(_not_implemented_error_msg(ObjNames.PLAYER_SUMMARY, source))
 
     @staticmethod
-    def fixtures(source: Source, **kwargs) -> RepoTypes.Fixture:
+    def fixtures(source: Source, **kwargs) -> RepoTypes.FixtureRepo:
         if source == Source.API:
-            return RepoTypes.Fixture(ObjTypes.Fixture, FixtureAPIDataSource())
+            return RepoTypes.FixtureRepo(ObjTypes.Fixture, FixtureAPIDataSource())
         elif source == Source.GITHUB:
             season = process_season_param(kwargs.get("season"))
 
-            return RepoTypes.Fixture(ObjTypes.Fixture, FixtureGitHubDataSource(season=season))
+            return RepoTypes.FixtureRepo(ObjTypes.Fixture, FixtureGitHubDataSource(season=season))
 
         raise NotImplementedError(_not_implemented_error_msg(ObjNames.FIXTURE, source))
 
     @staticmethod
-    def teams(source: Source, **kwargs) -> RepoTypes.Team:
+    def teams(source: Source, **kwargs) -> RepoTypes.TeamRepo:
         if source == Source.API:
-            return RepoTypes.Team(ObjTypes.Team, TeamAPIDataSource())
+            return RepoTypes.TeamRepo(ObjTypes.Team, TeamAPIDataSource())
         elif source == Source.GITHUB:
             season = process_season_param(kwargs.get("season"))
 
-            return RepoTypes.Team(ObjTypes.Team, TeamGitHubDataSource(season=season))
+            return RepoTypes.TeamRepo(ObjTypes.Team, TeamGitHubDataSource(season=season))
 
         raise NotImplementedError(_not_implemented_error_msg(ObjNames.TEAM, source))
 
     @staticmethod
-    def positions(source: Source) -> RepoTypes.Position:
+    def positions(source: Source) -> RepoTypes.PositionRepo:
         if source == Source.API:
-            return RepoTypes.Position(ObjTypes.Position, PositionAPIDataSource())
+            return RepoTypes.PositionRepo(ObjTypes.Position, PositionAPIDataSource())
 
         raise NotImplementedError(_not_implemented_error_msg(ObjNames.POSITION, source))
 
     @staticmethod
-    def game_settings(source: Source) -> RepoTypes.GameSettings:
+    def game_settings(source: Source) -> RepoTypes.GameSettingsRepo:
         if source == Source.API:
-            return RepoTypes.GameSettings(ObjTypes.GameSettings, GameSettingsAPIDataSource())
+            return RepoTypes.GameSettingsRepo(ObjTypes.GameSettings, GameSettingsAPIDataSource())
 
         raise NotImplementedError(_not_implemented_error_msg(ObjNames.GAME_SETTINGS, source))
 
     @staticmethod
-    def labels(source: Source) -> RepoTypes.Label:
+    def labels(source: Source) -> RepoTypes.LabelRepo:
         if source == Source.API:
-            return RepoTypes.Label(ObjTypes.Label, LabelAPIDataSource())
+            return RepoTypes.LabelRepo(ObjTypes.Label, LabelAPIDataSource())
 
         raise NotImplementedError(_not_implemented_error_msg(ObjNames.LABEL, source))
 
