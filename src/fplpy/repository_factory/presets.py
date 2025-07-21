@@ -1,6 +1,7 @@
 from .general import IndividualRepositoryFactories, Source
 from .template import RepositoryFactoryTemplate
 from ..objects.summary import RepoTypes, ObjTypes
+import os
 
 
 class APIRepositoryFactory(RepositoryFactoryTemplate):
@@ -62,3 +63,13 @@ class GitHubRepositoryFactory(RepositoryFactoryTemplate):
     
     def labels(self) -> RepoTypes.LabelRepo:
         return IndividualRepositoryFactories.labels(Source.API)
+    
+
+class RepositoryFactory202425(GitHubRepositoryFactory):
+    def __init__(self, event_file_path: str) -> None:
+        super().__init__("2024-25")
+        
+        self.__event_file_path = event_file_path
+        
+    def events(self) -> RepoTypes.EventRepo:
+        return IndividualRepositoryFactories.events(Source.LOCAL, file_path=self.__event_file_path)

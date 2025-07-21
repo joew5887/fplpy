@@ -22,6 +22,15 @@ def main2() -> None:
     
     y = fplpy.FixtureEnricher(ctx)
     print(y.enrich(x))
+
+
+def main3() -> None:
+    path = os.path.join("src", "fplpy", "objects", "event", "external", "2024_25_local.txt")
+    ctx = fplpy.RepositoryFactory202425(path)
+    event = ctx.events().get_by_id(1)
+    
+    if event is not None:
+        print(event.deadline_time)
     
     
 def total_scores() -> None:
@@ -42,4 +51,4 @@ def total_scores() -> None:
     
 
 if __name__ == "__main__":
-    total_scores()
+    main3()
