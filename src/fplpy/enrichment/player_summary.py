@@ -13,7 +13,7 @@ class PlayerSummaryEnricher(BaseEnricher[ObjTypes.PlayerSummary, PlayerSummaryEn
     def enrich(self, obj: ObjTypes.PlayerSummary) -> PlayerSummaryEnrichmentOutput:
         fixture_repo = self._repo_factory.fixtures()
         
-        fixture = fixture_repo.get_by_code(obj.value.fixture)
+        fixture = fixture_repo.get_by_id(obj.value.fixture)
         if fixture is None:
             raise Exception
         
