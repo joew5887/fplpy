@@ -73,10 +73,3 @@ class PlayerModel(Model):
     direct_freekicks_text: str
     penalties_order: Optional[int]
     penalties_text: str
-    mng_win: int
-    mng_draw: int
-    mng_loss: int
-    mng_underdog_win: int
-    mng_underdog_draw: int
-    mng_clean_sheets: int
-    mng_goals_scored: int

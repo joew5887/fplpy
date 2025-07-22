@@ -51,4 +51,5 @@ def total_scores() -> None:
     
 
 if __name__ == "__main__":
-    main3()
+    c = fplpy.APIRepositoryFactory()
+    c.players().get_all()
