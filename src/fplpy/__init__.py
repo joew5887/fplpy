@@ -5,3 +5,4 @@ from .objects.summary import ObjTypes, RepoTypes
 
 from .enrichment.player import PlayerEnricher
 from .enrichment.fixture import FixtureEnricher
+from .enrichment.player_summary import PlayerSummaryEnricher
