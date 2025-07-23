@@ -52,4 +52,7 @@ def total_scores() -> None:
 
 if __name__ == "__main__":
     c = fplpy.APIRepositoryFactory()
-    c.players().get_all()
+    for p in c.players().get_all():
+        print(type(p.value.team_join_date))
+        print(p.team_join_date)
+        print("")

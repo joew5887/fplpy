@@ -33,6 +33,7 @@ class PlayerModel(Model):
     status: str
     team: int
     team_code: int
+    team_join_date: Optional[str]
     total_points: int
     transfers_in: int
     transfers_in_event: int

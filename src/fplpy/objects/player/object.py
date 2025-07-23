@@ -2,6 +2,7 @@ from __future__ import annotations
 from .._element.element import ElementWithIDandCode
 from .model import PlayerModel
 from typing import Hashable, TypeVar
+from datetime import datetime
 
 
 T_player = TypeVar("T_player", bound="Player")
@@ -26,6 +27,13 @@ class Player(ElementWithIDandCode[PlayerModel]):
     @property
     def id(self) -> int:
         return self.value.id
+    
+    @property
+    def team_join_date(self) -> datetime:
+        if self.value.team_join_date is None:
+            return datetime.max
+
+        return datetime.strptime(self.value.team_join_date, "%Y-%m-%d")
     
     @property
     def code(self) -> int:
