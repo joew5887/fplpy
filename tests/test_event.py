@@ -51,8 +51,13 @@ def total_scores() -> None:
     
 
 if __name__ == "__main__":
-    c = fplpy.APIRepositoryFactory()
-    for p in c.players().get_all():
-        print(type(p.value.team_join_date))
-        print(p.team_join_date)
-        print("")
+    path = os.path.join("src", "fplpy", "objects", "event", "external", "2024_25_local.txt")
+    c = fplpy.RepositoryFactory202425(path)
+    player = c.players().get_by_code(174292)  # asensio
+    engine = fplpy.PlayerEnricher(c)
+    
+    if player is not None:
+        player_cost_tracker = fplpy.PlayerCostTracker(player, c)
+    
+        for event in c.events().get_all():
+            print(event.id, player_cost_tracker.cost_at_event_begin(event, 0))

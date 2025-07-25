@@ -17,6 +17,9 @@ class APIRepositoryFactory(RepositoryFactoryTemplate):
     def player_summary(self, player: ObjTypes.Player) -> RepoTypes.PlayerSummaryRepo:
         return IndividualRepositoryFactories.player_summary(Source.API, player)
     
+    def player_history(self, player: ObjTypes.Player) -> RepoTypes.PlayerHistoryRepo:
+        return IndividualRepositoryFactories.player_history(Source.API, player)
+    
     def fixtures(self) -> RepoTypes.FixtureRepo:
         return IndividualRepositoryFactories.fixtures(Source.API)
     
@@ -48,6 +51,9 @@ class GitHubRepositoryFactory(RepositoryFactoryTemplate):
     
     def player_summary(self, player: ObjTypes.Player) -> RepoTypes.PlayerSummaryRepo:
         return IndividualRepositoryFactories.player_summary(Source.GITHUB, player, season=self.__season)
+    
+    def player_history(self, player: ObjTypes.Player) -> RepoTypes.PlayerHistoryRepo:
+        return IndividualRepositoryFactories.player_history(Source.GITHUB, player, season=self.__season)
     
     def fixtures(self) -> RepoTypes.FixtureRepo:
         return IndividualRepositoryFactories.fixtures(Source.GITHUB, season=self.__season)

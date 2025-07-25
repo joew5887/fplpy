@@ -11,6 +11,7 @@ from .team.object import Team
 from .game_settings.object import GameSettings
 from .player_summary.object import PlayerSummary
 from .chip.object import Chip
+from .player_history.object import PlayerHistory
 
 # Repositories
 from ..objects.event.repository import EventRepository
@@ -22,6 +23,7 @@ from ..objects.player.repository import PlayerRepository
 from ..objects.position.repository import PositionRepository
 from ..objects.team.repository import TeamRepository
 from ..objects.player_summary.repository import PlayerSummaryRepository
+from ..objects.player_history.repository import PlayerHistoryRepository
 
 
 class ObjTypes:
@@ -34,6 +36,7 @@ class ObjTypes:
     PlayerSummary: TypeAlias = PlayerSummary
     Position: TypeAlias = Position
     Team: TypeAlias = Team
+    PlayerHistory: TypeAlias = PlayerHistory
 
 
 class RepoTypes:
@@ -46,6 +49,7 @@ class RepoTypes:
     PlayerSummaryRepo: TypeAlias = PlayerSummaryRepository[ObjTypes.PlayerSummary]
     PositionRepo: TypeAlias = PositionRepository[ObjTypes.Position]
     TeamRepo: TypeAlias = TeamRepository[ObjTypes.Team]
+    PlayerHistoryRepo: TypeAlias = PlayerHistoryRepository[ObjTypes.PlayerHistory]
     
 
 class ObjNames(str, Enum):
@@ -58,3 +62,4 @@ class ObjNames(str, Enum):
     GAME_SETTINGS = "game_settings"
     CHIP = "chip"
     PLAYER_SUMMARY = "player_summary"
+    PLAYER_HISTORY = "player_history"

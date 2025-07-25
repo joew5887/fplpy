@@ -18,6 +18,10 @@ class RepositoryFactoryTemplate(ABC):
     @abstractmethod
     def player_summary(self, player: ObjTypes.Player) -> RepoTypes.PlayerSummaryRepo:
         ...
+        
+    @abstractmethod
+    def player_history(self, player: ObjTypes.Player) -> RepoTypes.PlayerHistoryRepo:
+        ...
     
     @abstractmethod
     def fixtures(self) -> RepoTypes.FixtureRepo:

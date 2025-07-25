@@ -5,7 +5,7 @@ from typing import TypedDict, Optional
 
 
 class PlayerSummaryEnrichmentOutput(TypedDict):
-    event: Optional[ObjTypes.Event]
+    event: ObjTypes.Event
     fixture: ObjTypes.Fixture
 
 
@@ -15,11 +15,13 @@ class PlayerSummaryEnricher(BaseEnricher[ObjTypes.PlayerSummary, PlayerSummaryEn
         
         fixture = fixture_repo.get_by_id(obj.value.fixture)
         if fixture is None:
-            raise Exception
+            raise Exception("Enriching player_summary's fixture returned None")
         
         fixture_enrich_engine = FixtureEnricher(self._repo_factory)
         fixture_enriched = fixture_enrich_engine.enrich(fixture)
         event = fixture_enriched["event"]
+        if event is None:
+            raise Exception("Enriching player_summary's event returned None")
         
         return {
             "event": event,

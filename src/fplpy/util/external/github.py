@@ -28,7 +28,8 @@ SUB_VAASTAV_URLS = {
     "TEAMS": "{}/teams.csv",
     "FIXTURES": "{}/fixtures.csv",
     "PLAYERS": "{}/players_raw.csv",
-    "ELEMENT-SUMMARY": "{}/players/{}/gw.csv"
+    "ELEMENT-SUMMARY": "{}/players/{}/gw.csv",
+    "ELEMENT-HISTORY": "{}/players/{}/history.csv"
 }
 
 
@@ -38,6 +39,10 @@ def format_player_name(first_name: str, second_name: str, player_id: int) -> str
 
 def get_element_summary_url(season: str, player_name_formatted: str) -> str:
     return VAASTAV_URL_STEM + SUB_VAASTAV_URLS["ELEMENT-SUMMARY"].format(season, player_name_formatted)
+
+
+def get_element_history_url(season: str, player_name_formatted: str) -> str:
+    return VAASTAV_URL_STEM + SUB_VAASTAV_URLS["ELEMENT-HISTORY"].format(season, player_name_formatted)
 
 
 def get_vaastav_url(key: Literal["TEAMS", "FIXTURES", "PLAYERS"], season: str) -> str:

@@ -14,11 +14,13 @@ from ..objects.team.external.api import TeamAPIDataSource
 from ..objects.game_settings.external.api import GameSettingsAPIDataSource
 from ..objects.player_summary.external.api import PlayerSummaryAPIDataSource
 from ..objects.chip.external.api import ChipAPIDataSource
+from ..objects.player_history.external.api import PlayerHistoryAPIDataSource
 
 from ..objects.fixture.external.github import FixtureGitHubDataSource
 from ..objects.player.external.github import PlayerGitHubDataSource
 from ..objects.team.external.github import TeamGitHubDataSource
 from ..objects.player_summary.external.github import PlayerSummaryGitHubDataSource
+from ..objects.player_history.external.github import PlayerHistoryGitHubDataSource
 
 from ..objects.event.external.local import EventLocalDataSource
 
@@ -87,6 +89,30 @@ class IndividualRepositoryFactories:
             )
 
         raise NotImplementedError(_not_implemented_error_msg(ObjNames.PLAYER_SUMMARY, source))
+    
+    @staticmethod
+    def player_history(source: Source, player: ObjTypes.Player, **kwargs) -> RepoTypes.PlayerHistoryRepo:
+        if source == Source.API:
+            player_id = player.value.id
+
+            return RepoTypes.PlayerHistoryRepo(ObjTypes.PlayerHistory, PlayerHistoryAPIDataSource(player_id=player_id))
+
+        elif source == Source.GITHUB:
+            season = process_season_param(kwargs.get("season"))
+            
+            name = format_player_name(
+                player.value.first_name, player.value.second_name, player.value.id
+            )
+
+            return RepoTypes.PlayerHistoryRepo(
+                ObjTypes.PlayerHistory,
+                PlayerHistoryGitHubDataSource(
+                    season=season,
+                    player_name_formatted=name
+                )
+            )
+
+        raise NotImplementedError(_not_implemented_error_msg(ObjNames.PLAYER_HISTORY, source))
 
     @staticmethod
     def fixtures(source: Source, **kwargs) -> RepoTypes.FixtureRepo:
