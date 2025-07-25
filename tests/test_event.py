@@ -60,4 +60,4 @@ if __name__ == "__main__":
         player_cost_tracker = fplpy.PlayerCostTracker(player, c)
     
         for event in c.events().get_all():
-            print(event.id, player_cost_tracker.cost_at_event_begin(event, 0))
+            print(event.id, player_cost_tracker.cost_at_event_begin(event, 1_000_000))

@@ -48,8 +48,13 @@ class PlayerCostTracker:
     def player(self) -> ObjTypes.Player:
         return self.__player
 
-    def cost_at_event_begin(self, event: ObjTypes.Event, default_value: int) -> int:
-        return self.__cost_at_event_filled.get(event, default_value)
+    def cost_at_event_begin(self, event: ObjTypes.Event, default_cost: int = 0) -> int:
+        cost = self.__cost_at_event_filled[event]
+        
+        if cost == 0:
+            return default_cost
+        
+        return cost
     
     
 def get_cost_at_event_unfilled(player: ObjTypes.Player, repo_factory: RepositoryFactoryTemplate) -> dict[ObjTypes.Event, int]:
