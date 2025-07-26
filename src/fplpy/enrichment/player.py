@@ -65,7 +65,7 @@ class PlayerCostTracker:
         }
         
     @classmethod
-    def deserialise(cls, data: dict, repo_factory: RepositoryFactoryTemplate) -> "PlayerCostTracker":
+    def deserialise(cls, data: dict[str, Any], repo_factory: RepositoryFactoryTemplate) -> "PlayerCostTracker":
         players_repo = repo_factory.players()
         player = players_repo.get_by_code(data["player_code"])  # assume this exists
         if player is None:
@@ -76,8 +76,8 @@ class PlayerCostTracker:
         # Rebuild the event objects
         event_map = {}
         for event in events_repo.get_all():
-            if event.id in data["event_cost_map"]:
-                event_map[event] = data["event_cost_map"][event.id]
+            if str(event.id) in data["event_cost_map"]:
+                event_map[event] = data["event_cost_map"][str(event.id)]
 
         cost_at_event_filled = fill_event_dict(event_map, events_repo, 0)
 
