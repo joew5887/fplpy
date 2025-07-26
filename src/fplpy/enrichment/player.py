@@ -1,7 +1,7 @@
 from .template import BaseEnricher
 from ..objects.summary import ObjTypes, RepoTypes
 from ..repository_factory.template import RepositoryFactoryTemplate
-from typing import TypedDict, Optional, TypeVar
+from typing import TypedDict, Optional, TypeVar, Any
 from .player_summary import PlayerSummaryEnricher
 
 
@@ -39,10 +39,9 @@ class PlayerCostTracker:
     __cost_at_event_filled: dict[ObjTypes.Event, int]
     __player: ObjTypes.Player
 
-    def __init__(self, player: ObjTypes.Player, repo_factory: RepositoryFactoryTemplate) -> None:
+    def __init__(self, player: ObjTypes.Player, cost_at_event_filled: dict[ObjTypes.Event, int]) -> None:
         self.__player = player
-        cost_at_event_unfilled: dict[ObjTypes.Event, int] = get_cost_at_event_unfilled(self.__player, repo_factory)
-        self.__cost_at_event_filled = fill_event_dict(cost_at_event_unfilled, repo_factory.events(), 0)
+        self.__cost_at_event_filled = cost_at_event_filled
         
     @property
     def player(self) -> ObjTypes.Player:
@@ -55,6 +54,41 @@ class PlayerCostTracker:
             return default_cost
         
         return cost
+    
+    def serialise(self) -> dict[str, Any]:
+        return {
+            "player_code": self.__player.code,  # or another unique identifier
+            "event_cost_map": {
+                event.id: cost
+                for event, cost in self.__cost_at_event_filled.items()
+            }
+        }
+        
+    @classmethod
+    def deserialise(cls, data: dict, repo_factory: RepositoryFactoryTemplate) -> "PlayerCostTracker":
+        players_repo = repo_factory.players()
+        player = players_repo.get_by_code(data["player_code"])  # assume this exists
+        if player is None:
+            raise ValueError("Player code not found in repo.")
+        
+        events_repo = repo_factory.events()
+
+        # Rebuild the event objects
+        event_map = {}
+        for event in events_repo.get_all():
+            if event.id in data["event_cost_map"]:
+                event_map[event] = data["event_cost_map"][event.id]
+
+        cost_at_event_filled = fill_event_dict(event_map, events_repo, 0)
+
+        return cls(player, cost_at_event_filled)
+    
+    @classmethod
+    def from_player(cls, player: ObjTypes.Player, repo_factory: RepositoryFactoryTemplate) -> "PlayerCostTracker":
+        cost_at_event_unfilled: dict[ObjTypes.Event, int] = get_cost_at_event_unfilled(player, repo_factory)
+        cost_at_event_filled = fill_event_dict(cost_at_event_unfilled, repo_factory.events(), 0)
+        
+        return cls(player, cost_at_event_filled)
     
     
 def get_cost_at_event_unfilled(player: ObjTypes.Player, repo_factory: RepositoryFactoryTemplate) -> dict[ObjTypes.Event, int]:
