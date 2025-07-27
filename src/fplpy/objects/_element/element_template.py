@@ -3,7 +3,7 @@ from .model import T_model
 from abc import ABC, abstractmethod
 from typing import TypeVar, Generic, Any
 
-# Type Variables
+
 T = TypeVar("T")
 T_element = TypeVar("T_element", bound="ElementTemplate[Any]")
 T_element_with_id = TypeVar("T_element_with_id", bound="ElementTemplateWithID[Any]")
@@ -31,6 +31,17 @@ class Comparable(ABC):
 class Hashable(ABC):
     @abstractmethod
     def __hash__(self) -> int: ...
+    
+    
+class Serialisable(ABC):
+    @abstractmethod
+    def to_dict(self) -> dict[str, Any]:
+        ...
+
+    @classmethod
+    @abstractmethod
+    def from_dict(cls, data: dict[str, Any]) -> Any:
+        ...
 
 
 class HasID(ABC):
@@ -45,7 +56,7 @@ class HasCode(ABC):
     def code(self) -> int: ...
 
 
-class ElementTemplate(SingleArgumentInitialisable[T_model], Representable, Comparable, Hashable, ABC, Generic[T_model]):
+class ElementTemplate(SingleArgumentInitialisable[T_model], Serialisable, Representable, Comparable, Hashable, ABC, Generic[T_model]):
     ...
 
 

@@ -3,7 +3,7 @@ from .._element.element import ElementWithID
 from .model import EventModel
 from datetime import datetime
 from ...util.dt import string_to_datetime
-from typing import TypeVar, Hashable
+from typing import TypeVar, Hashable, Any
 
 
 T_event = TypeVar("T_event", bound="Event")
@@ -54,3 +54,7 @@ class Event(ElementWithID[EventModel]):
             self.value.name,
             self.value.deadline_time
         )
+        
+    @classmethod
+    def from_dict(cls, data: dict[str, Any]) -> "Event":
+        return cls(EventModel(**data))

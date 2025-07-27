@@ -1,7 +1,7 @@
 from __future__ import annotations
 from .._element.element import ElementWithIDandCode
 from .model import PlayerModel
-from typing import Hashable, TypeVar
+from typing import Hashable, TypeVar, Any
 from datetime import datetime
 
 
@@ -45,3 +45,7 @@ class Player(ElementWithIDandCode[PlayerModel]):
             self.id,
             self.code,
         )
+        
+    @classmethod
+    def from_dict(cls, data: dict[str, Any]) -> "Player":
+        return cls(PlayerModel(**data))

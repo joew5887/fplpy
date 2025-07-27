@@ -1,7 +1,7 @@
 from __future__ import annotations
 from .._element.element import ElementWithID
 from .model import ChipModel
-from typing import Hashable, TypeVar
+from typing import Hashable, TypeVar, Any
 
 
 T_chip = TypeVar("T_chip", bound="Chip")
@@ -30,3 +30,7 @@ class Chip(ElementWithID[ChipModel]):
             self.id,
             self.value.name,
         )
+
+    @classmethod
+    def from_dict(cls, data: dict[str, Any]) -> "Chip":
+        return cls(ChipModel(**data))

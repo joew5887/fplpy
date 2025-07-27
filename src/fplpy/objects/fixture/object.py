@@ -1,7 +1,7 @@
 from __future__ import annotations
 from .._element.element import ElementWithIDandCode
 from .model import FixtureModel
-from typing import Hashable, TypeVar
+from typing import Hashable, TypeVar, Any
 from datetime import datetime
 from ...util.dt import string_to_datetime
 
@@ -51,3 +51,7 @@ class Fixture(ElementWithIDandCode[FixtureModel]):
     @property
     def code(self) -> int:
         return self.value.code
+
+    @classmethod
+    def from_dict(cls, data: dict[str, Any]) -> "Fixture":
+        return cls(FixtureModel(**data))

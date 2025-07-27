@@ -1,7 +1,7 @@
 from __future__ import annotations
 from .._element.element import Element
 from .model import LabelModel
-from typing import TypeVar, Hashable
+from typing import TypeVar, Hashable, Any
 
 
 T_label = TypeVar("T_label", bound="Label")
@@ -25,3 +25,7 @@ class Label(Element[LabelModel]):
             "Label",
             self.value,
         )
+        
+    @classmethod
+    def from_dict(cls, data: dict[str, Any]) -> "Label":
+        return cls(LabelModel(**data))

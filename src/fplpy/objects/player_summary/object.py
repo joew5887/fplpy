@@ -1,7 +1,7 @@
 from __future__ import annotations
 from .._element.element import Element
 from .model import PlayerSummaryModel
-from typing import TypeVar, Hashable
+from typing import TypeVar, Hashable, Any
 from datetime import datetime
 from ...util.dt import string_to_datetime
 
@@ -32,3 +32,7 @@ class PlayerSummary(Element[PlayerSummaryModel]):
             self.value.element,
             self.value.fixture,
         )
+        
+    @classmethod
+    def from_dict(cls, data: dict[str, Any]) -> "PlayerSummary":
+        return cls(PlayerSummaryModel(**data))

@@ -1,7 +1,7 @@
 from __future__ import annotations
 from .._element.element import Element
 from .model import PlayerHistoryModel
-from typing import TypeVar, Hashable
+from typing import TypeVar, Hashable, Any
 
 
 T_player_history = TypeVar("T_player_history", bound="PlayerHistory")
@@ -26,3 +26,7 @@ class PlayerHistory(Element[PlayerHistoryModel]):
             self.value.element_code,
             self.value.season_name,
         )
+        
+    @classmethod
+    def from_dict(cls, data: dict[str, Any]) -> "PlayerHistory":
+        return cls(PlayerHistoryModel(**data))

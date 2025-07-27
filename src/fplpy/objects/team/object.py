@@ -1,7 +1,7 @@
 from __future__ import annotations
 from .._element.element import ElementWithIDandCode
 from .model import TeamModel
-from typing import Hashable, TypeVar
+from typing import Hashable, TypeVar, Any
 
 
 T_team = TypeVar("T_team", bound="Team")
@@ -35,3 +35,7 @@ class Team(ElementWithIDandCode[TeamModel]):
             self.id,
             self.code,
         )
+        
+    @classmethod
+    def from_dict(cls, data: dict[str, Any]) -> "Team":
+        return cls(TeamModel(**data))

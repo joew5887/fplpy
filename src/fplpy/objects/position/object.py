@@ -1,7 +1,7 @@
 from __future__ import annotations
 from .._element.element import ElementWithID
 from .model import PositionModel
-from typing import TypeVar, Hashable
+from typing import TypeVar, Hashable, Any
 
 
 T_position = TypeVar("T_position", bound="Position")
@@ -34,3 +34,7 @@ class Position(ElementWithID[PositionModel]):
             self.value.singular_name,
             self.value.singular_name_short,
         )
+        
+    @classmethod
+    def from_dict(cls, data: dict[str, Any]) -> "Position":
+        return cls(PositionModel(**data))

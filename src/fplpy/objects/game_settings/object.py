@@ -19,3 +19,7 @@ class GameSettings(Element[GameSettingsModel]):
             "GameSettings",
             self.value,
         )
+        
+    @classmethod
+    def from_dict(cls, data: dict[str, Any]) -> "GameSettings":
+        return cls(GameSettingsModel(**data))

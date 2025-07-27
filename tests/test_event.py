@@ -53,11 +53,11 @@ def total_scores() -> None:
 if __name__ == "__main__":
     path = os.path.join("src", "fplpy", "objects", "event", "external", "2024_25_local.txt")
     c = fplpy.RepositoryFactory202425(path)
-    player = c.players().get_by_code(174292)  # asensio
+    player = c.players().get_filtered(lambda player: player.value.web_name == "Jake Evans")[0]
     engine = fplpy.PlayerEnricher(c)
     
     if player is not None:
-        player_cost_tracker = fplpy.PlayerCostTracker(player, c)
+        player_cost_tracker = fplpy.PlayerCostTracker.from_player(player, c)
     
         for event in c.events().get_all():
             print(event.id, player_cost_tracker.cost_at_event_begin(event, 1_000_000))
