@@ -1,12 +1,16 @@
 from typing import Any, Literal
-import requests
 from json import loads
 from functools import cache
+from .general import safe_request
 
 
 @cache
 def __call_api(url_link: str) -> Any:
-    response = requests.get(url_link)
+    response = safe_request(url_link)
+    
+    if response.status_code != 200:
+        raise Exception(f"Failed to query {url_link}. Response Code: {response.status_code}")
+
     utf8 = response.text.encode("utf8")
     json_data = utf8.decode("unicode_escape")
 
